@@ -17,15 +17,15 @@ Be careful if you use any of the statistical tests in the plots, since they do n
 Package: \tab epade\cr
 Title: \tab Easy Plots\cr
 Type: \tab Package\cr
-Version: \tab 0.2.2\cr
-Date: \tab 2011-08-15\cr
+Version: \tab 0.3.8\cr
+Date: \tab 2013-02-22\cr
 Depends: \tab plotrix, R (>= 2.12)\cr
 Suggests: \tab survival\cr
-License: \tab GPL version 2 or newer\cr
+License: \tab GPL (>= 2) \cr
 LazyLoad: \tab yes\cr
 }
 }
 \author{
-ADES\cr
+Andreas Schulz\cr
 Maintainer: <ades-s@web.de>
 }

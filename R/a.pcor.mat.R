@@ -16,15 +16,15 @@ function(x,y,z,method="p",na.rm=TRUE){
 	}
 
 	xdata <- na.omit(data.frame(data[,c(1,2)]))
-	Sxx <- cov(xdata,xdata,m=method)
+	Sxx <- cov(xdata,xdata,method=method)
 
 	xzdata <- na.omit(data)
 	xdata <- data.frame(xzdata[,c(1,2)])
 	zdata <- data.frame(xzdata[,-c(1,2)])
-	Sxz <- cov(xdata,zdata,m=method)
+	Sxz <- cov(xdata,zdata,method=method)
 
 	zdata <- na.omit(data.frame(data[,-c(1,2)]))
-	Szz <- cov(zdata,zdata,m=method)
+	Szz <- cov(zdata,zdata,method=method)
 
 	# is Szz positive definite?
 	zz.ev <- eigen(Szz)$values
@@ -39,4 +39,3 @@ function(x,y,z,method="p",na.rm=TRUE){
 
 	rxx.z
 }
-

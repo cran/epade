@@ -31,6 +31,10 @@ wmean<- function (x, weights = NULL)
         if(!is.null(w)){
 
          out<- ( sum(((x - wmean(x, w))*w)^3)/sum(w, na.rm=T) )      /        ( sum(((x - wmean(x,w))*w)^2)/sum(w, na.rm=T) )^(3/2)
+         #w<- w/(sum(w)/length(x))
+         #out<-   (1/sum(w))*(sum(w^(3/2) * ((x-mean(x))/sd(x))^3  ))
+
+         
          return(out)
 
         }
@@ -39,4 +43,3 @@ wmean<- function (x, weights = NULL)
         sapply(x, skewness.ade, na.rm = na.rm)
     else skewness.ade(as.vector(x), na.rm = na.rm)
 }
-

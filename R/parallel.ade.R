@@ -45,9 +45,9 @@ if(!is.null(group)) gg<-as.numeric(gg)
 
 
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(alpha)){
 alpha<-0.25
 if(wall==0) alpha<-1
@@ -443,4 +443,3 @@ box(lwd=1, col=a.coladd.ade(bgcol, -35))
 ################################################################################
 
 }
-

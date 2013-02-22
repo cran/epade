@@ -1,5 +1,5 @@
 bar.plot.ade <-
-function(x,  y=NULL, z=NULL, data=NULL, vnames.x=NULL, vnames.y=NULL, vnames.z=NULL, btext=NULL,  b=NULL, b2=0.5, v=NULL, h=NULL, gradient=FALSE, xlab='', ylab='', main='',  ylim=NULL, yticks=NULL, col=NULL, tcol=NULL,  bgcol=NULL, lcol=NULL, alpha=NULL, beside=TRUE, legendon='topright', wall=0, lhoriz=NULL, prozent=FALSE, form='r', border=TRUE, density = NULL, angle = NULL, density2 = NULL, angle2 = NULL, fill=NULL, lwd=1, lty=1,  blwd=1, blty=1){
+function(x,  y=NULL, z=NULL, data=NULL, vnames.x=NULL, vnames.y=NULL, vnames.z=NULL, btext=NULL,  b=NULL, b2=0.5, v=NULL, h=NULL, gradient=FALSE, xlab='', ylab='', main='',  ylim=NULL, yticks=NULL, col=NULL, tcol=NULL,  bgcol=NULL, lcol=NULL, alpha=NULL, beside=TRUE, legendon='topright', wall=0, lhoriz=NULL, prozent=FALSE, ploc=0, form='r', border=TRUE, density = NULL, angle = NULL, density2 = NULL, angle2 = NULL, fill=NULL, lwd=1, lty=1,  blwd=1, blty=1){
 if(any(par('mfg')!=c(1,1,1,1)) & any(par('mai') < c(1.02, 0.82, 0.82, 0.42))){
 maidiff<-rep(0, 4)
 norm<-c(1.02, 0.82, 0.82, 0.42)
@@ -39,7 +39,7 @@ if(!is.null(z)) z<-eval(parse(text=paste("data$",z, sep='')))
 
 
 
-if(!is.table(x) & !is.character(x) & !is.matrix(x)){
+if(!is.table(x) &  length(x)>1 & !is.matrix(x)){
 if(is.null(y)  & is.null(z))  a.tab<-table(x)
 if(!is.null(y) & is.null(z))  a.tab<-table(x, y)
 if(is.null(y) & !is.null(z))  a.tab<-table(x, z)
@@ -98,9 +98,9 @@ if(is.null(col) & beside  & length(dim(a.tab))==3)  col<-a.getcol.ade(a.n1, type
 if(is.null(col) & !beside & length(dim(a.tab))==3)  col<-a.getcol.ade(a.n3, type='p')
 col2<-col
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(lcol) & (wall==0 | wall==2 | wall==5))  lcol<-bgcol
 if(is.null(lcol) & (wall==1 | wall==6 | wall==4))  lcol<-rgb(1,1,1)
 
@@ -709,9 +709,27 @@ a.form.ade(x = xran, y = ylim[1], h=a.tab, b = b, b2 = b2, col=col, side=side, n
 
 ################################
 if(prozent){
-TB<-paste(round.ade(as.vector(a.tab/sum(a.tab))*100 , 1), '%', sep='' )
-if(wall!=4) text(x=xran, y=as.vector(a.tab/2), labels=TB, col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran, y=as.vector(a.tab/2), labels=TB, col=rgb(1,1,1), cex=1, font=2)
+
+if(ploc==0) pfactor<- 0.5
+if(ploc==0) padj <-   0.5
+
+if(ploc==1) pfactor<-0
+if(ploc==1) padj <- -0.5
+
+if(ploc==2) pfactor<-1
+if(ploc==2) padj <- -0.5
+
+if(ploc==3) pfactor<-1
+if(ploc==3) padj <-  1.5
+
+if(ploc==4) pfactor<-0
+if(ploc==4) padj <-  1.1
+
+
+
+TB<-paste(round_n.ade(as.vector(a.tab/sum(a.tab))*100 , 1), '%', sep='' )
+if(wall!=4) text(x=xran, y=as.vector(a.tab*pfactor), labels=TB, col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran, y=as.vector(a.tab*pfactor), labels=TB, col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }
 ################################
 
@@ -747,7 +765,7 @@ text(mean(xran), max(a.tab)+(yr*0.75) , labels=btext, col=tcol)
 ################################################################################
 
 if(!beside){
-TB<-paste(round.ade(as.vector(a.tab/sum(a.tab))*100 , 1), '%', sep='' )
+TB<-paste(round_n.ade(as.vector(a.tab/sum(a.tab))*100 , 1), '%', sep='' )
 
 hoch<-rep(ylim[1], dim(a.tab))
 for(k in 1:dim(a.tab)){
@@ -806,8 +824,23 @@ a.form.ade(x = xran+yrat[k], y = ylim[1], h=a.tab[k, ], b = b, b2 = b2, col=col[
 
 ################################
 if(prozent){
-if(wall!=4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=paste(round.ade(TB[k,], 1), '%', sep='' ), col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=paste(round.ade(TB[k,], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
+if(ploc==0) pfactor<- 0.5
+if(ploc==0) padj <-   0.5
+
+if(ploc==1) pfactor<-0
+if(ploc==1) padj <- -0.5
+
+if(ploc==2) pfactor<-1
+if(ploc==2) padj <- -0.5
+
+if(ploc==3) pfactor<-1
+if(ploc==3) padj <-  1.5
+
+if(ploc==4) pfactor<-0
+if(ploc==4) padj <-  1.1
+
+if(wall!=4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=paste(round_n.ade(TB[k,], 1), '%', sep='' ), col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=paste(round_n.ade(TB[k,], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }
 ################################
 }
@@ -865,8 +898,8 @@ hoch<-hoch+a.tab[k, ]
 
 ################################
 if(prozent){
-if(wall!=4) text(x=xran, y=cumat[k, ], labels=paste(round.ade(TB[k, ], 1), '%', sep='' ), col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran, y=cumat[k, ], labels=paste(round.ade(TB[k, ], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran, y=cumat[k, ], labels=paste(round_n.ade(TB[k, ], 1), '%', sep='' ), col=tcol, cex=1, font=2)
+if(wall==4) text(x=xran, y=cumat[k, ], labels=paste(round_n.ade(TB[k, ], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
 }
 ################################
 }
@@ -952,4 +985,3 @@ colrun<-colrun+1
 
 
 }
-

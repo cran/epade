@@ -37,7 +37,7 @@ if(is.null(xlab))  xlab<-x
 
 if(is.null(eval(parse(text=paste("data$",x)))))  stop('Variable x not found')
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(lcol) & wall!=0)  lcol<- tcol
 if(is.null(lcol) & wall==0)  lcol<- 1
 
@@ -84,4 +84,3 @@ if(fitline==0 & qline) abline(int, slope, lwd=lwd, lty=lty, col=lcol)
 
 
 }
-

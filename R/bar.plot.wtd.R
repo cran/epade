@@ -1,5 +1,5 @@
 bar.plot.wtd <-
-function(x,  y=NULL, z=NULL, w=NULL, data=NULL, vnames.x=NULL, vnames.y=NULL, vnames.z=NULL, btext=NULL, cutz=F, zperc=NULL, b=NULL, b2=0.5, v=NULL, h=NULL, gradient=FALSE, xlab='', ylab='', main='',  ylim=NULL, yticks=NULL, col=NULL, tcol=NULL,  bgcol=NULL, lcol=NULL, alpha=NULL, beside=TRUE, legendon='topright', wall=0, lhoriz=NULL, prozent=FALSE, form='r', border=TRUE, density = NULL, angle = NULL, density2 = NULL, angle2 = NULL, fill=NULL, lwd=1, lty=1,  blwd=1, blty=1){
+function(x,  y=NULL, z=NULL, w=NULL, data=NULL, vnames.x=NULL, vnames.y=NULL, vnames.z=NULL, btext=NULL, cutz=F, zperc=NULL, b=NULL, b2=0.5, v=NULL, h=NULL, gradient=FALSE, xlab='', ylab='', main='',  ylim=NULL, yticks=NULL, col=NULL, tcol=NULL,  bgcol=NULL, lcol=NULL, alpha=NULL, beside=TRUE, legendon='topright', wall=0, lhoriz=NULL, prozent=FALSE, ploc=0,  form='r', border=TRUE, density = NULL, angle = NULL, density2 = NULL, angle2 = NULL, fill=NULL, lwd=1, lty=1,  blwd=1, blty=1){
 if(any(par('mfg')!=c(1,1,1,1)) & any(par('mai') < c(1.02, 0.82, 0.82, 0.42))){
 maidiff<-rep(0, 4)
 norm<-c(1.02, 0.82, 0.82, 0.42)
@@ -37,15 +37,17 @@ if(!is.null(y)) y<-eval(parse(text=paste("data$",y, sep='')))
 if(!is.null(z)) z<-eval(parse(text=paste("data$",z, sep='')))
 if(!is.null(w)) w<-eval(parse(text=paste("data$",w, sep='')))
 
-
 if(is.null(z)) cutz<-F
 }
 
-if(!is.table(x) & !is.character(x) & !is.matrix(x)){
+################################################################
+################################
+if(!is.table(x) & length(x)>1 & !is.matrix(x)){
 if(is.null(y)  & is.null(z))  a.tab<-table(x)
 if(!is.null(y) & is.null(z))  a.tab<-table(x, y)
 if(is.null(y) & !is.null(z)){
 a.tab<-table(x, z)
+
 if(is.numeric(cutz)){
 all.tab<- a.tab
 a.tab<- a.tab[,cutz]
@@ -56,6 +58,8 @@ if(zperc=='zells')       a.tab<- (a.tab/rowSums(all.tab))*100
 a.tab<- as.table(a.tab)
 }
 }
+
+
 if(!is.null(y) & !is.null(z)){
 a.tab<-table(x, y, z)
 if(is.numeric(cutz)){
@@ -75,7 +79,7 @@ if(zperc=='zells')      a.tab<- (a.tab/sum.tab)*100
 }
 
 }
-################################
+##############
 
 # Gewichtung
 
@@ -125,9 +129,9 @@ if(zperc=='zells')    a.tab<- (a.tab/sum.tab)*100
 }
 }
 ################################
+################################################################
 
 if(is.table(x)) a.tab<-x
-
 
 
 a.n1<- dim(a.tab)[1]
@@ -143,6 +147,7 @@ if(is.null(vnames.z)) vnames3<- unlist(dimnames(a.tab)[3])
 if(!is.null(vnames.x)) vnames1<- vnames.x
 if(!is.null(vnames.y)) vnames2<- vnames.y
 if(!is.null(vnames.z)) vnames3<- vnames.z
+
 
 
 
@@ -182,9 +187,9 @@ if(is.null(col) & beside  & length(dim(a.tab))==3)  col<-a.getcol.ade(a.n1, type
 if(is.null(col) & !beside & length(dim(a.tab))==3)  col<-a.getcol.ade(a.n3, type='p')
 col2<-col
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(lcol) & (wall==0 | wall==2 | wall==5))  lcol<-bgcol
 if(is.null(lcol) & (wall==1 | wall==6 | wall==4))  lcol<-rgb(1,1,1)
 
@@ -325,7 +330,6 @@ if(!is.null(btext))  ylim[2]<-ylim[2]+(diff(ylim)/10)
 plot(0,0, xlim=xlim, ylim=ylim, col=rgb(0,0,0,0), xlab='', ylab='', main='', axes=FALSE)
 
 }
-
 
 
 
@@ -617,6 +621,7 @@ if(length(dim(a.tab))==1) cumat[i]<-(a.tab[i]/2)+cumat[i-1] + a.tab[i-1]/2
 if(length(dim(a.tab))==2) cumat[i, ]<-(a.tab[i, ]/2)+cumat[i-1, ] + a.tab[i-1, ]/2
 }
 
+
 if(!is.na(a.n2))  xa<-axis(side, at=xran, labels = vnames2, tick=FALSE, col=bgcol, lwd.ticks=1, lwd=0)
 if(!is.na(a.n3) & !beside) xa<-axis(side, at=xran, labels = vnames2, tick=FALSE, col=bgcol, lwd.ticks=1, lwd=0)
 if(is.na(a.n2) &  beside)  xa<-axis(side, at=xran, labels = vnames1, tick=FALSE, col=bgcol, lwd.ticks=1, lwd=0)
@@ -786,9 +791,9 @@ if(length(dim(a.tab))==1){
 
 
 
-if(!is.numeric(cutz) | is.null(zperc))     TB<-paste(round.ade(as.vector((a.tab/sum(a.tab))*100) , 1), '%', sep='' )
-if(is.numeric(cutz) &  zperc=='overall')   TB<-paste(round.ade(as.vector((all.tab[,cutz]/sum(all.tab))*100) , 1), '%', sep='' )
-if(is.numeric(cutz) &  zperc=='zells')      TB<-paste(round.ade(as.vector((all.tab[,cutz]/rowSums(all.tab))*100) , 1), '%', sep='' )
+if(!is.numeric(cutz) | is.null(zperc))     TB<-paste(round_n.ade(as.vector((a.tab/sum(a.tab))*100) , 1), '%', sep='' )
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='overall')   TB<-paste(round_n.ade(as.vector((all.tab[,cutz]/sum(all.tab))*100) , 1), '%', sep='' )
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='zells')      TB<-paste(round_n.ade(as.vector((all.tab[,cutz]/rowSums(all.tab))*100) , 1), '%', sep='' )
 
 
 
@@ -797,13 +802,29 @@ a.form.ade(x = xran, y = ylim[1], h=a.tab, b = b, b2 = b2, col=col, side=side, n
 
 
 ################################
+if(ploc==0) pfactor<- 0.5
+if(ploc==0) padj <-   0.5
+
+if(ploc==1) pfactor<-0
+if(ploc==1) padj <- -0.5
+
+if(ploc==2) pfactor<-1
+if(ploc==2) padj <- -0.5
+
+if(ploc==3) pfactor<-1
+if(ploc==3) padj <-  1.5
+
+if(ploc==4) pfactor<-0
+if(ploc==4) padj <-  1.1
+
+
 if(is.logical(prozent)){ if(prozent){
-if(wall!=4) text(x=xran, y=as.vector(a.tab/2), labels=TB, col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran, y=as.vector(a.tab/2), labels=TB, col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran, y=as.vector(a.tab*pfactor), labels=TB, col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran, y=as.vector(a.tab*pfactor), labels=TB, col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }}
 if(is.character(prozent) | is.numeric(prozent)){
-if(wall!=4) text(x=xran, y=as.vector(a.tab/2), labels=prozent, col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran, y=as.vector(a.tab/2), labels=prozent, col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran, y=as.vector(a.tab*pfactor), labels=prozent, col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran, y=as.vector(a.tab*pfactor), labels=prozent, col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }
 
 ################################
@@ -842,9 +863,9 @@ text(mean(xran), max(a.tab)+(yr*0.75) , labels=btext, col=tcol)
 
 if(!beside){
 
-if(!is.numeric(cutz) | is.null(zperc))     TB<-paste(round.ade(as.vector((a.tab/sum(a.tab))*100) , 1), '%', sep='' )
-if(is.numeric(cutz) &  zperc=='overall')   TB<-paste(round.ade(as.vector((all.tab[,cutz]/sum(all.tab))*100) , 1), '%', sep='' )
-if(is.numeric(cutz) &  zperc=='zells')      TB<-paste(round.ade(as.vector((all.tab[,cutz]/rowSums(all.tab))*100) , 1), '%', sep='' )
+if(!is.numeric(cutz) | is.null(zperc))     TB<-paste(round_n.ade(as.vector((a.tab/sum(a.tab))*100) , 1), '%', sep='' )
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='overall')   TB<-paste(round_n.ade(as.vector((all.tab[,cutz]/sum(all.tab))*100) , 1), '%', sep='' )
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='zells')      TB<-paste(round_n.ade(as.vector((all.tab[,cutz]/rowSums(all.tab))*100) , 1), '%', sep='' )
 
 
 
@@ -901,6 +922,7 @@ text(xran, hoch+(yr/brt) , labels=btext, col=tcol)
 ################################################################################
 if(length(dim(a.tab))==2){
 
+
 if(is.numeric(cutz) & !is.null(z)){
 sum.tab<- NULL
 for(k in 1:nlevels(z)){
@@ -910,11 +932,13 @@ if(is.null(sum.tab))  sum.tab<- all.tab[,,k]
 }
 
 
+
+
 if(!is.numeric(cutz) | is.null(zperc))     TB<-(a.tab/sum(a.tab))*100
-if(is.numeric(cutz) &  zperc=='overall')   TB<-(all.tab[,,cutz]/sum(all.tab))*100
-if(is.numeric(cutz) &  zperc=='rows')      TB<-(all.tab[,,cutz]/rowSums(sum.tab))*100
-if(is.numeric(cutz) &  zperc=='cols')      TB<-t(t(all.tab[,,cutz])/colSums(sum.tab))*100
-if(is.numeric(cutz) &  zperc=='zells')     TB<-(all.tab[,,cutz]/sum.tab)*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='overall')   TB<-(all.tab[,,cutz]/sum(all.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='rows')      TB<-(all.tab[,,cutz]/rowSums(sum.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='cols')      TB<-t(t(all.tab[,,cutz])/colSums(sum.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='zells')     TB<-(all.tab[,,cutz]/sum.tab)*100
 
 
 if(beside){
@@ -924,16 +948,32 @@ for(k in 1:nrow(a.tab)){
 a.form.ade(x = xran+yrat[k], y = ylim[1], h=a.tab[k, ], b = b, b2 = b2, col=col[k], side=side, nslices=100, gradient=gradient, border=border, bcol=bcol, form=form, density = density[k], angle = angle[k], density2 = density2[k], angle2 = angle2[k], blwd=blwd, blty=blwd, lwd=lwd, lty=lwd, fill=fill[k], a.tab=a.tab)
 
 ################################
+if(ploc==0) pfactor<- 0.5
+if(ploc==0) padj <-   0.5
+
+if(ploc==1) pfactor<-0
+if(ploc==1) padj <- -0.5
+
+if(ploc==2) pfactor<-1
+if(ploc==2) padj <- -0.5
+
+if(ploc==3) pfactor<-1
+if(ploc==3) padj <-  1.5
+
+if(ploc==4) pfactor<-0
+if(ploc==4) padj <-  1.1
+
 if(is.logical(prozent)){ if(prozent){
-if(wall!=4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=paste(round.ade(TB[k,], 1), '%', sep='' ), col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=paste(round.ade(TB[k,], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=paste(round_n.ade(TB[k,], 1), '%', sep='' ), col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=paste(round_n.ade(TB[k,], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }}
 
 
 if(is.character(prozent) | is.numeric(prozent)){
-if(wall!=4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=prozent[k,], col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran+yrat[k], y=(a.tab/2)[k,], labels=prozent[k,], col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=prozent[k,], col=tcol, cex=1, font=2,   adj = c(0.5, padj))
+if(wall==4) text(x=xran+yrat[k], y=(a.tab*pfactor)[k,], labels=prozent[k,], col=rgb(1,1,1), cex=1, font=2,   adj = c(0.5, padj))
 }
+
 ################################
 }
 
@@ -988,10 +1028,10 @@ if(is.null(sum.tab))  sum.tab<- all.tab[,,k]
 }
 }
 if(!is.numeric(cutz) | is.null(zperc))  TB<-(a.tab/sum(a.tab))*100
-if(is.numeric(cutz) &  zperc=='overall')   TB<-(all.tab[,,cutz]/sum(all.tab))*100
-if(is.numeric(cutz) &  zperc=='rows')      TB<-(all.tab[,,cutz]/rowSums(sum.tab))*100
-if(is.numeric(cutz) &  zperc=='cols')      TB<-t(t(all.tab[,,cutz])/colSums(sum.tab))*100
-if(is.numeric(cutz) &  zperc=='zells')      TB<-(all.tab[,,cutz]/sum.tab)*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='overall')   TB<-(all.tab[,,cutz]/sum(all.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='rows')      TB<-(all.tab[,,cutz]/rowSums(sum.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='cols')      TB<-t(t(all.tab[,,cutz])/colSums(sum.tab))*100
+if(is.numeric(cutz) &  !is.null(zperc)) if(zperc=='zells')      TB<-(all.tab[,,cutz]/sum.tab)*100
 
 
 
@@ -1003,8 +1043,8 @@ hoch<-hoch+a.tab[k, ]
 
 ################################
 if(is.logical(prozent)){ if(prozent){
-if(wall!=4) text(x=xran, y=cumat[k, ], labels=paste(round.ade(TB[k, ], 1), '%', sep='' ), col=tcol, cex=1, font=2)
-if(wall==4) text(x=xran, y=cumat[k, ], labels=paste(round.ade(TB[k, ], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
+if(wall!=4) text(x=xran, y=cumat[k, ], labels=paste(round_n.ade(TB[k, ], 1), '%', sep='' ), col=tcol, cex=1, font=2)
+if(wall==4) text(x=xran, y=cumat[k, ], labels=paste(round_n.ade(TB[k, ], 1), '%', sep='' ), col=rgb(1,1,1), cex=1, font=2)
 }}
 
 
@@ -1096,4 +1136,3 @@ colrun<-colrun+1
 
 
 }
-

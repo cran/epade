@@ -1,4 +1,4 @@
-round.ade <-
+round_n.ade <-
 function(x, digits=0){
 x<-unlist(x)
 if(!is.vector(x) & !is.matrix(x)) stop('x must be vector or matrix')
@@ -10,7 +10,7 @@ if(length(x)>1){
 if(is.vector(x)){
 y<-x
 for(i in 1:length(x)){
-y[i]<- round.ade(x[i], digits)
+y[i]<- round_n.ade(x[i], digits)
 }
 return(y)
 }
@@ -19,7 +19,7 @@ if(is.matrix(x)){
 M<-x
 for(i in 1:dim(x)[1]){
 for(j in 1:dim(x)[2]){
-M[i, j]<- round.ade(x[i, j], digits)
+M[i, j]<- round_n.ade(x[i, j], digits)
 }}
 return(M)
 }
@@ -36,4 +36,3 @@ return(y)
 }
 
 }
-

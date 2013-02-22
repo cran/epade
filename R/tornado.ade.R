@@ -62,9 +62,9 @@ if(!is.numeric(x) & !is.list(x) & !is.factor(x))     stop('x is not numeric!')
 ################################################################
 # Colors
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(alpha))  alpha<-1
 
 if(is.null(lcol))  lcol<- tcol
@@ -726,4 +726,3 @@ box(lwd=1, col=a.coladd.ade(bgcol, -35))
 ################################################################################
 
 }
-

@@ -43,4 +43,3 @@ function(x,y,z,use="mat",method="p",na.rm=TRUE){
 
 	data.frame(estimate=pcor,p.value=p.value,statistic=statistic,n=n,gn=gn,Method=p.method,Use=p.use)
 }
-

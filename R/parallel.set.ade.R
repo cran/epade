@@ -34,9 +34,9 @@ data<- subset(data, !is.na(eval(parse(text=paste(vars[i], sep='')))))
 
 if (is.null(vnames)) vnames <- vars
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(lcol)) lcol<-c(rgb(1,1,1), 'gray90')
 
 if(is.null(alpha)){
@@ -591,4 +591,3 @@ box(lwd=1, col=a.coladd.ade(bgcol, -35))
 ################################################################################
 
 }
-

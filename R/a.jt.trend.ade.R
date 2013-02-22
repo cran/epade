@@ -42,4 +42,3 @@ stop('N must be >= 50')
     names(out)<-c('statistic', 'alternative', 'p-Value')
     return(out)
 }
-

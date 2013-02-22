@@ -1,5 +1,5 @@
 roc.plot.ade <-
-function( pred, event, group=NULL, data=NULL, vnames=NULL, main='', xlab='1-Specificity', ylab='Sensitivity', digits=3, pdigs=4, lty=1, lwd=2, col=NULL, tcol=NULL,  bgcol=NULL, wall=0, test=FALSE, CC=TRUE, auc=TRUE, diag=TRUE){
+function( pred, event, group=NULL, data=NULL, vnames=NULL, main='', xlab='1-Specificity', ylab='Sensitivity', digits=3, pdigs=4, lty=1, lwd=2, col=NULL, tcol=NULL,  bgcol=NULL, wall=0, test=FALSE, CC=TRUE, auc=TRUE, diag=TRUE, spec=FALSE){
 if(any(par('mfg')!=c(1,1,1,1)) & any(par('mai') < c(1.02, 0.82, 0.82, 0.42))){
 maidiff<-rep(0, 4)
 norm<-c(1.02, 0.82, 0.82, 0.42)
@@ -166,9 +166,9 @@ pvaltest<-format_p.ade(testres[[2]], pdigs)
 
 # Colors
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(col) & a.N==1) col <- tcol
 if(is.null(col) & a.N>1)  col <- a.getcol.ade(a.N)
 
@@ -254,6 +254,7 @@ plot.box.ade<-function(xlab, ylab, main, xlim, ylim, lwd){
 plot(0, 0, type='s', main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, col=rgb(1,1,1,0) )
 a1<-axis(1, col=rgb(1,1,1), col.ticks=bgcol, lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=bgcol, lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), col.ticks=bgcol, lwd.ticks=1)
 if(diag) abline(0, 1, lty='dashed', col=bgcol)
 box(col=bgcol)
 }
@@ -287,6 +288,7 @@ plot(0, 0, type='s', main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, col=
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
 a1<-axis(1, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=tcol, labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 if(diag) abline(0, 1, lty='dashed', col=rgb(1,1,1))
 box(col=rgb(1,1,1))
@@ -322,6 +324,7 @@ plot.box.ade<-function(xlab, ylab, main, xlim, ylim, lwd){
 plot(0, 0, type='s', main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, col=rgb(1,1,1,0) )
 a1<-axis(1, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -75), lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -75), lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=a.coladd.ade(bgcol, -75), labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
 abline(v=a1, h=a2, lty=1,   col=bgcol, lwd=1)
 if(diag) abline(0, 1, lty='dashed', col=bgcol)
 box(col=a.coladd.ade(bgcol, -75))
@@ -358,6 +361,7 @@ plot(0, 0, type='s', main=main, xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim, col=
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
 a1<-axis(1, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -50), lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -50), lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=a.coladd.ade(bgcol, -50), labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -50), lwd=1)
 if(diag) abline(0, 1, lty='dashed', col=a.coladd.ade(bgcol, -50))
 box(col=a.coladd.ade(bgcol, -50))
@@ -395,16 +399,22 @@ plot(0, 0, type='s', xlab=xlab, ylab=ylab, xlim=xlim, ylim=ylim , col=rgb(1,1,1,
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
 a1<-axis(1, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=tcol, labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
+
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 if(diag) abline(0, 1, lty='dashed', col=rgb(1,1,1))
 
 
 # Outer
 par(xpd=TRUE)
-polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
+if(!spec) polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
+if(spec)  polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(1.3, 3,  3, 1.3)), col=tcol, border=rgb(1,1,1))
+if(!spec) text(a.glc(side=0), a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
+if(spec)  text(a.glc(side=0), a.glc(side=3, line=1.8),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
+
+
 if(ylab!='' & ylab!=' ') polygon( a.glc(side=2, line=c(3.5, 3.5, 2, 2)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
 if(xlab!='' & xlab!=' ') polygon( a.glc(side=c(2, 2, 4, 4), line=0),     a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
-text(a.glc(side=0), a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
 text(a.glc(side=0), a.glc(side=1, line=3.5), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
 text(a.glc(side=2, line=2.5), a.glc(side=5),  labels=ylab, cex = 1.1,  font=2,  col=tcol, adj=c(0.5,0), srt=90)
 par(xpd=FALSE)
@@ -449,6 +459,8 @@ plot.box.ade<-function(xlab, ylab, main, xlim, ylim, lwd){
 plot(0, 0, type='s', xlab='', ylab='', xlim=xlim, ylim=ylim , col=rgb(1,1,1,0))
 a1<-axis(1, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=tcol, labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
+
 if(diag) abline(0, 1, lty='dashed', col=bgcol)
 
 
@@ -456,17 +468,27 @@ if(diag) abline(0, 1, lty='dashed', col=bgcol)
 
 # Outer
 par(xpd=TRUE)
-polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
-polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
+if(!spec) polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+if(!spec) polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
+if(!spec) polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+if(!spec) polygon(a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
+
+if(spec)  polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=3, line=c(1.6, 3.25, 3.25, 1.6)), col=bgcol,        border=tcol)
+if(spec)  polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(1.6, 3.25, 3.25, 1.6)), col=rgb(1,1,1,0), border=tcol)
+if(spec)  polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   a.glc(side=3, line=c(1.6, 3.25, 3.25, 1.6)), col=bgcol,        border=tcol)
+if(spec)  polygon(a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  a.glc(side=c(1,3,3,1), line=c(2.6, 1.6, 1.6, 2.6)), col=bgcol,  border=tcol)
+
+
 polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=tcol)
 polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
 polygon(a.glc(side=c(2, 2, 4, 4), line=0), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=rgb(1,1,1,0), border=tcol)
 polygon(a.glc(side=4, line=c(0, 0, 0.6, 0.6)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
-text(a.glc(side=0), a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
+
+if(!spec) text(a.glc(side=0), a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
+if(spec)  text(a.glc(side=0), a.glc(side=3, line=2),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
+
 text(a.glc(side=0), a.glc(side=1, line=3.75), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
-text(a.glc(side=2, line=2.5), a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
+text(a.glc(side=2, line=2.5), a.glc(side=5),  labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
 par(xpd=FALSE)
 box(lwd=1, col=tcol)
 }
@@ -499,6 +521,8 @@ a1<-axis(1, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -35), lwd.ticks=3)
 a1<-axis(1, col=rgb(1,1,1), col.ticks=rgb(1,1,1), lwd.ticks=1)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -35), lwd.ticks=3)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=rgb(1,1,1), lwd.ticks=1)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=a.coladd.ade(bgcol, -35), labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=3)
+if(spec) a3<-axis(3, padj =0.9, tck=-0.01, at=pretty(c(1,0)), col.ticks=rgb(1,1,1)              , labels=pretty(c(1,0))[length(pretty(c(1,0))):1], col=rgb(1,1,1), lwd.ticks=1)
 
 
 abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -35), lwd=3)
@@ -569,7 +593,7 @@ g[i]<-vnames[i]
 roc.model<-a.roc.calcs(glm(eval(parse(text=paste("data$",event)))~eval(parse(text=paste("data$",pred[i]))), family='binomial'))
 x<- roc.model$diagnostic.table[ , 1]
 y<- roc.model$diagnostic.table[ , 2]
-auc <- round.ade(roc.model$auc, digits=digits)
+auc <- round_n.ade(roc.model$auc, digits=digits)
 
 ltexts<-c(ltexts, auc)
 points(x, y, type='l', xlim=c(0 ,1), ylim=c(0, 1) , lty=lty[i], lwd=lwd, col=col[i])
@@ -595,7 +619,7 @@ subdata <-  subset(data, eval(parse(text=group))==levels(g)[i])
 roc.model<-a.roc.calcs(glm(eval(parse(text=paste("subdata$",event)))~eval(parse(text=paste("subdata$",pred))), family='binomial'))
 x<- roc.model$diagnostic.table[ , 1]
 y<- roc.model$diagnostic.table[ , 2]
-auc <- round.ade(roc.model$auc, digits=digits)
+auc <- round_n.ade(roc.model$auc, digits=digits)
 ltexts<-c(ltexts, auc)
 points(x, y, type='l', xlim=c(0 ,1), ylim=c(0, 1) , lty=lty[i], lwd=lwd, col=col[i])
 }
@@ -610,4 +634,3 @@ legens.ade(vnames, levels(g), ltexts, '', col)
 }
 
 }
-

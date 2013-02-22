@@ -1,5 +1,6 @@
-box.plot.ade <-
-function(x,  group=NULL,  group2=NULL, data=NULL, vnames=NULL, main=NULL, xlab=NULL, ylab=NULL, ylim=NULL, yticks=NULL, col=NULL, tcol=NULL, bgcol=NULL, lcol=NULL, pdigs=4, alpha=NULL, cex=1, cex.axis=1, lwd=2, h=NULL, lty=2, test=FALSE, varwidth=TRUE, means=FALSE, count=TRUE, zylinder=FALSE, twoside=TRUE, paired = FALSE, outlier=TRUE, wall=0, type='box'){
+box.plot.wtd <-
+function(x, group=NULL, group2=NULL, w=NULL, data=NULL, vnames=NULL, main=NULL, xlab=NULL, ylab=NULL, ylim=NULL, yticks=NULL, col=NULL, tcol=NULL, bgcol=NULL, lcol=NULL, pdigs=4, alpha=NULL, cex=1, cex.axis=1, lwd=2, h=NULL, lty=2, varwidth=TRUE, means=FALSE, count=TRUE, zylinder=FALSE, outlier=TRUE, wall=0, type='box'){
+library(Hmisc)
 if(any(par('mfg')!=c(1,1,1,1)) & any(par('mai') < c(1.02, 0.82, 0.82, 0.42))){
 maidiff<-rep(0, 4)
 norm<-c(1.02, 0.82, 0.82, 0.42)
@@ -10,6 +11,11 @@ oldpar<-par(no.readonly =TRUE)
 pnames<-names(oldpar)
 oldpar<-oldpar[-which(names(oldpar)%in%c('usr', 'plt',   'pin', 'fin', 'fig', 'mfg', 'mfcol', 'mfrow', 'omd', 'omi', 'oma'))]
 on.exit(par(oldpar))
+test=FALSE
+
+wtd.sd<- function(x, weights=NULL, normwt=FALSE, na.rm=TRUE){
+sqrt(wtd.var(x, weights, normwt, na.rm))
+}
 
 ##############################
 if(!is.character(x)){
@@ -25,11 +31,9 @@ if(nchar(gsub('[^+]', '', xpart))==1) group2<-gsub('^.*[+]', '', xpart)
 
 type<-tolower(type)
 if(type== 'b' | type== 'box' | type=='boxplot')    type<-1
-if(type== 'v' | type== 'vio' | type=='violin')     type<-2
-if(type== 'sd')  type<-3
-if(type== '2sd' | type== '2 sd')  type<-4
-if(type== 'p' | type== 'bp'| type== 'b-p'| type== 'percentile'| type== 'percentiles')  type<-5
-if(type== 'iqr' | type== 'IQR'| type== 'median'| type== 'm')  type<-6
+if(type== 'sd')  type<-2
+if(type== '2sd' | type== '2 sd')  type<-3
+if(type== 'iqr' | type== 'IQR'| type== 'median'| type== 'm')  type<-4
 
 require(plotrix)
 if(is.null(group)){
@@ -57,11 +61,11 @@ if(!is.null(group2)){
 group2<-eval(parse(text=paste("data$",group2, sep='')))
 }
 x<-eval(parse(text=paste("data$",x, sep='')))
+w<-eval(parse(text=paste("data$",w, sep='')))
 }
 if(is.null(ylab)) ylab <-xname
 if(!is.null(group)) if(is.null(xlab)) xlab <-xname<-gsub('[(]{0}[A-Za-z0-9]*[$]', '' ,deparse(substitute(group)))
 ############################
-
 
 
 
@@ -71,7 +75,7 @@ if(!is.null(group2)){ if(!is.factor(group2))   group2<-as.factor(group2) }
 
 if(is.null(group)){  group<-as.factor(rep(1, length(x)))}
 if(!is.numeric(x))     stop('x is not numeric!!')
-
+if(!is.numeric(w))     stop('w is not numeric!!')
 
 if(is.null(tcol)  & wall==0)   tcol<-1
 if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
@@ -94,69 +98,6 @@ if(!is.null(group2)) g2 <- group2
 n.g<- nlevels(g)
 
 
-
-################################################################################
-p<-NULL
-alt.t<-NULL
-
-test.text<-NULL
-if(!is.logical(test) & is.character(test)){
-test.text<-test
-test<-T
-}
-
-for(k in 1:n.g2){
-if(!is.null(group2)) x.k<- x[which(g2==levels(g2)[k])]
-if(!is.null(group2)) g.k<- g[which(g2==levels(g2)[k])]
-if(is.null(group2))  x.k<- x
-if(is.null(group2))  g.k<- g
-
-
-
-## Trend Test Mit Richtung
-if(test & !twoside & nlevels(g)>2){
-down<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "decreasing")
-updt<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "increasing")
-if(down[[3]] < updt[[3]]) {
-p.k<- format_p.ade(down[[3]], pdigs)
-alt<- down[[2]]
-}
-if(down[[3]] > updt[[3]]) {
-p.k<- format_p.ade( updt[[3]] , pdigs)
-alt<- updt[[2]]
-}
-
-p<-c(p, p.k)
-alt.t<-c(alt.t, alt)
-
-}
-
-if(test & twoside  & nlevels(g)>2){
-trtest<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "two.sided")
-p.k<- format_p.ade(trtest[3], pdigs)
-p<-c(p, p.k)
-}
-
-if(nlevels(g)==2 & test){
-if(!is.null(group2)) skewness.k<-abs(as.vector(unlist(by(x, list(g, g2), skewness.ade, na.rm=TRUE , simplify =FALSE))))
-if(is.null(group2))  skewness.k<-abs(as.vector(unlist(by(x, g,           skewness.ade ,na.rm=TRUE , simplify =FALSE))))
-
-if(all(skewness.k<=1)) {
-p.k<- format_p.ade(t.test(x.k[which(g.k==levels(g.k)[1])],x.k[which(g.k==levels(g.k)[2])], paired = paired)$p.value , 4)
-if(is.null(test.text))  pstri<-'T-Test: '
-if(!is.null(test.text)) pstri<-test.text
-}
-if(any(skewness.k>1)){
-p.k<- format_p.ade(wilcox.test(x.k[which(g.k==levels(g.k)[1])],x.k[which(g.k==levels(g.k)[2])], paired = paired)$p.value , 4)
-if(is.null(test.text))  pstri<-'U-Test: '
-if(!is.null(test.text)) pstri<-test.text
-}
-p<-c(p, p.k)
-}
-}
-#######################
-
-
 if(is.null(group) & is.null(group2))  xrange<- range(x, na.rm=TRUE)
 if(!is.null(group) & is.null(group2)) xrange<- range(x[!is.na(g)], na.rm=TRUE)
 if(is.null(group) & !is.null(group2))  xrange<- range(x[!is.na(g2)], na.rm=TRUE)
@@ -164,16 +105,7 @@ if(!is.null(group) & !is.null(group2))  xrange<- range(x[!is.na(g) & !is.na(g2)]
 par(new=FALSE)
 if(is.null(ylim)) ylim<-xrange
 
-
 axlin<-0
-if(test){
-axlin<-2.5
-oldmar<-par('mar')
-newmar<-rep(0, 4)
-if(par('mar')[1]<(5.1+axlin)) newmar[1]<- (5.1+axlin) - oldmar[1]
-#par(mar=c(par('mar')[1]+axlin,par('mar')[2:4]))
-par(mar=(oldmar+newmar))
-}
 
 count.text<-F
 if(!is.logical(count) & is.character(count)){
@@ -188,19 +120,15 @@ oldmar<-par('mar')
 newmar<-rep(0, 4)
 if(par('mar')[3]<(4.6+nxlin)) newmar[3]<- (4.6+nxlin) - oldmar[3]
 par(mar=(oldmar+newmar))
-
-#par(mar=c(par('mar')[1:2],par('mar')[3]+nxlin, par('mar')[4]))
 }
 
 if(wall==5){
 newmar<-rep(0, 4)
 oldmar<-par('mar')
-print(oldmar)
 if(oldmar[2]<4.85) newmar[2]<- 4.85 - oldmar[2]
 if(oldmar[3]<4.6) newmar[3]<- 4.6 - oldmar[3]
 if(oldmar[4]>1.2 & oldmar[4]<=2.54) newmar[4]<- 1.2-oldmar[4]
 par(mar=(oldmar+newmar))
-
 }
 
 
@@ -223,11 +151,7 @@ par(col.lab=tcol)
 par(font=2)
 par(fg=rgb(1,1,1))
 par(lend=1)
-
-
 xrat<- 1:(n.g*n.g2)
-
-
 xlim<-c(1-(1.5/(n.g*n.g2)),(n.g*+n.g2)+(1.5/(n.g*n.g2)))
 
 xpand<-NULL
@@ -273,27 +197,56 @@ if(is.null(vnames2)) vnames2<-levels(g2)
 
 
 ################################################################################
-a.draw.box<-function(v, at, expand, bstats, means, wall, zylinder=FALSE, col=1, alpha=1, type='box'){
+a.draw.box<-function(v, w, at, expand, bstats, means, wall, zylinder=FALSE, col=1, alpha=1, type='box'){
 
 ################
+# Der Boxplot
 if(type==1){
+
+vmedian<-vmeans<-v25<-v75<-vIQR<-uppW<-lowW<- NULL
+outs<- list()
+for(i in 1:length(v)){
+vmeans<- c(vmeans, wtd.mean(v[[i]], w[[i]], na.rm=TRUE))
+km <- wtd.quantile(v[[i]], w[[i]], probs=c(0.5))
+k25<- wtd.quantile(v[[i]], w[[i]], probs=c(0.25))
+k75<- wtd.quantile(v[[i]], w[[i]], probs=c(0.75))
+
+uppWk <- k75+1.5*(k75-k25)
+lowWk <- k25-1.5*(k75-k25)
+uppWk <- min(max(v[[i]][which(v[[i]]<uppWk)], na.rm=T),  uppWk)
+lowWk <- max(min(v[[i]][which(v[[i]]>lowWk)], na.rm=T),  lowWk)
+
+outs<-v[[i]][which(v[[i]]<lowWk | v[[i]]>uppWk)]
+ows<- w[[i]][which(v[[i]]<lowWk | v[[i]]>uppWk)]
+
+if(outlier){
+points(rep(at[i], length(outs)), outs, col=a.alpha.ade(a.coladd.ade(col, 50), alpha), pch=16, cex=ows)
+points(rep(at[i], length(outs)), outs, col=a.alpha.ade(a.coladd.ade(col, 25), alpha), pch=1 , cex=ows)
+}
+
+vmedian<- c(vmedian, km)
+v25<- c(v25, k25)
+v75<- c(v75, k75)
+vIQR<- c(vIQR, k75-k25)
+uppW<- c(uppW, uppWk)
+lowW<- c(lowW, lowWk)
+}
+
 if(zylinder){
 library(plotrix)
-cylindrect(at-expand, bstats$stats[4, ], at+expand, bstats$stats[2, ],  col=col, border=col)
+cylindrect(at-expand, v75, at+expand, v25,  col=col, border=col)
 }
 
 if(!zylinder) {
-rect(at-expand, bstats$stats[4, ], at+expand, bstats$stats[2, ],  col=a.alpha.ade(a.coladd.ade(col, 75), alpha), border=col)
+rect(at-expand, v75, at+expand, v25,  col=a.alpha.ade(a.coladd.ade(col, 75), alpha), border=col)
 }
-if(outlier) points(  bstats$group+at[1]-1, bstats$out, col=a.alpha.ade(col, alpha), pch=16)
-segments(at, bstats$stats[1, ], at, bstats$stats[2, ],                    col = col, lty = 1, lwd = lwd)
-segments(at, bstats$stats[4, ], at, bstats$stats[5, ],                    col = col, lty = 1, lwd = lwd)
-segments(at +expand/3, bstats$stats[5, ], at-expand/3, bstats$stats[5, ], col = col, lty = 1, lwd = lwd)
-segments(at +expand/3, bstats$stats[1, ], at-expand/3, bstats$stats[1, ], col = col, lty = 1, lwd = lwd)
-segments(at +expand,   bstats$stats[3, ], at-expand,   bstats$stats[3, ], col = col, lty = 1, lwd = lwd+1)
-
+segments(at, lowW, at, v25, col = col, lty = 1, lwd = lwd)
+segments(at, v75, at,  uppW, col = col, lty = 1, lwd = lwd)
+segments(at +expand/3, uppW, at-expand/3, uppW, col = col, lty = 1, lwd = lwd)
+segments(at +expand/3, lowW, at-expand/3, lowW, col = col, lty = 1, lwd = lwd)
+segments(at +expand,   vmedian, at-expand,  vmedian, col = col, lty = 1, lwd = lwd+1)
 if(means){
-points(at,  unlist(lapply(v, mean, na.rm=TRUE)), col=col, pch=15)
+points(at, vmeans, col=col, pch=15)
 }
 }
 ################
@@ -301,33 +254,14 @@ points(at,  unlist(lapply(v, mean, na.rm=TRUE)), col=col, pch=15)
 
 ################
 if(type==2){
-vmeans<-unlist(lapply(v, mean, na.rm=TRUE))
-vsds  <-unlist(lapply(v, sd, na.rm=TRUE))
-vmedian<-unlist(lapply(v, median, na.rm=TRUE))
-vdensity<-lapply(v, density, na.rm=TRUE, bw='nrd')
-vmin <-lapply(v, min, na.rm=TRUE)
-vmax <-lapply(v, max, na.rm=TRUE)
+vmeans<-NULL
+vsds  <-NULL
 
-for(k in 1:length(at)){
-yk<-vdensity[[k]]$x
-xk<-(0.4 * vdensity[[k]]$y)/(max(vdensity[[k]]$y, na.rm=TRUE))
-yk[which(yk< vmin[[k]])] <- vmin[[k]]
-yk[which(yk> vmax[[k]])] <- vmax[[k]]
-
-
-polygon( c(xk+at[k], (-xk+at[k])[length(yk):1] ),  c(yk, yk[length(yk):1]),  col=a.alpha.ade(a.coladd.ade(col, 75), alpha), border=col)
+for(i in 1:length(v)){
+vmeans<- c(vmeans, wtd.mean(v[[i]], w[[i]], na.rm=TRUE))
+vsds  <- c(vsds,   wtd.sd(v[[i]],   w[[i]], na.rm=TRUE))
 }
-segments(at, bstats$stats[1, ], at, bstats$stats[5, ],  col = col, lty = 1, lwd = lwd)
-segments(at, bstats$stats[4, ], at, bstats$stats[2, ],  col=col, lwd=lwd*4)
-segments(at-0.15, vmedian, at+0.15, vmedian, col=col, pch=15, lwd=lwd+1)
-}
-################
 
-
-################
-if(type==3){
-vmeans<-unlist(lapply(v, mean, na.rm=TRUE))
-vsds  <-unlist(lapply(v, sd, na.rm=TRUE))
 arrows(at, vmeans-vsds, at, vmeans+vsds, col = col, lty = 1, lwd = lwd, angle = 90, code=3, length = 0.1)
 lines(at,vmeans, col=col, lwd=2, lty=3)
 points(at, vmeans, col=col, pch=16)
@@ -335,9 +269,16 @@ points(at, vmeans, col=col, pch=16)
 ################
 
 ################
-if(type==4){
-vmeans<-unlist(lapply(v, mean, na.rm=TRUE))
-vsds  <-unlist(lapply(v, sd, na.rm=TRUE))
+if(type==3){
+vmeans<-NULL
+vsds  <-NULL
+
+for(i in 1:length(v)){
+vmeans<- c(vmeans, wtd.mean(v[[i]], w[[i]], na.rm=TRUE))
+vsds  <- c(vsds,   wtd.sd(v[[i]],   w[[i]], na.rm=TRUE))
+}
+
+
 arrows(at, vmeans-vsds*2, at, vmeans+vsds*2, col = a.coladd.ade(col, 75), lty = 1, lwd = lwd, angle = 90, code=3, length = 0.1)
 arrows(at, vmeans-vsds,    at, vmeans+vsds, col = col, lty = 1, lwd = lwd, angle = 90, code=3, length = 0.05)
 lines(at,vmeans, col=col, lwd=2, lty=3)
@@ -347,43 +288,17 @@ points(at, vmeans, col=col, pch=16)
 
 
 ################
-if(type==5){
-vmeans<-unlist(lapply(v, mean, na.rm=TRUE))
-vsds  <-unlist(lapply(v, sd, na.rm=TRUE))
-vmedian<-unlist(lapply(v, median, na.rm=TRUE))
-vdensity<-lapply(v, density, na.rm=TRUE, bw='nrd')
-vmin <-lapply(v, min, na.rm=TRUE)
-vmax <-lapply(v, max, na.rm=TRUE)
-
-for(k in 1:length(at)){
-avar<-v[[k]]
-yk<-quantile(avar, seq(0.001, 0.999, 0.001), type=8, na.rm=TRUE)
-xk<- seq(0.001, 0.999, 0.001)
-xkk<-seq(0.001, 0.999, 0.001)
-xk[xk>0.5]<-1-xk[xk>0.5]
-yk[which(yk< vmin[[k]])] <- vmin[[k]]
-yk[which(yk> vmax[[k]])] <- vmax[[k]]
-xk<-xk*0.9
-
-polygon( c(xk+at[k], (-xk+at[k])[length(yk):1] ),  c(yk, yk[length(yk):1]),  col=a.alpha.ade(a.coladd.ade(col, 75), alpha), border=col)
-segments(at[k]-xk[xkk==0.75], yk[xkk==0.75], at[k]+xk[xkk==0.75], yk[xkk==0.75],       col = col, lty = 1, lwd = lwd)
-segments(at[k]-xk[xkk==0.25], yk[xkk==0.25], at[k]+xk[xkk==0.25], yk[xkk==0.25],       col = col, lty = 1, lwd = lwd)
-segments(at[k]-xk[xkk==0.5],  yk[xkk==0.5],  at[k]+xk[xkk==0.5],  yk[xkk==0.5],        col = col, lty = 1, lwd = lwd)
+if(type==4){
+vmedian<-v25<-v75<-NULL
+for(i in 1:length(v)){
+vmedian<- c(vmedian, wtd.quantile(v[[i]], w[[i]], probs=c(0.5)))
+v25<- c(v25, wtd.quantile(v[[i]], w[[i]], probs=c(0.25)))
+v75<- c(v75, wtd.quantile(v[[i]], w[[i]], probs=c(0.75)))
 }
-if(means){
-points(at,  unlist(lapply(v, mean, na.rm=TRUE)), col=col, pch=15)
-}
-}
-################
 
-################
-if(type==6){
-vmeans<-unlist(lapply(v, median, na.rm=TRUE))
-v25  <-unlist(lapply(v, quantile, probs = 0.25, na.rm=TRUE))
-v75  <-unlist(lapply(v, quantile, probs = 0.75, na.rm=TRUE))
 arrows(at, v25, at, v75, col = col, lty = 1, lwd = lwd, angle = 45, code=3, length = 0.1)
-lines(at,vmeans, col=col, lwd=2, lty=3)
-points(at, vmeans, col=col, pch=18, cex=1.25)
+lines(at,vmedian, col=col, lwd=2, lty=3)
+points(at,vmedian, col=col, pch=18, cex=1.25)
 }
 ################
 
@@ -406,37 +321,31 @@ if(!is.null(group2))                       axis(3, at=((1:n.g2)*(n.g))+0.5-(n.g/
 if(!is.null(group2))                       abline(v=seq(n.g, n.g*(n.g2-1), n.g)+0.5,                         col=bgcol,              lwd=1)
 abline(v=NULL, h=h, col=lcol, lwd=1, lty=lty)
 
-
-
 for(k in 1:n.g2){
 xids<-(1+n.g*(k-1)):(n.g*k)
-
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
 }
+
 if(is.null(g2)){
 xk<-x
+wk<-w
 gk<-g
 }
 for(i in 1:n.g){
-v[[i]]<-xk[which(gk==levels(gk)[i])]
+v[[i]] <-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
 
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
-
-
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 }
 
 ####################
@@ -478,36 +387,30 @@ abline(v=xrat, col=rgb(1,1,1), lwd=1, lty=1)
 
 
 
-if(test) rect(a.glc(2,0),a.glc(1,0),a.glc(4,0),a.glc(1, 2.5) ,  col=bgcol, border=rgb(1,1,1), lwd=1, xpd=TRUE)
 for(k in 1:n.g2){
 xids<-(1+n.g*(k-1)):(n.g*k)
 
-
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
-
-
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 }
 
 ####################
@@ -553,29 +456,26 @@ for(k in 1:n.g2){
 xids<-(1+n.g*(k-1)):(n.g*k)
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 
-
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
 }
 
 ####################
@@ -623,29 +523,28 @@ xids<-(1+n.g*(k-1)):(n.g*k)
 
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 
 
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
+
 }
 
 ####################
@@ -708,28 +607,27 @@ xids<-(1+n.g*(k-1)):(n.g*k)
 
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=rgb(1,1,1), adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=rgb(1,1,1), adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=rgb(1,1,1), adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=rgb(1,1,1), adj=c(0.5, 0.5), xpd=TRUE)
-#####################
+
 }
 
 ####################
@@ -790,29 +688,27 @@ xids<-(1+n.g*(k-1)):(n.g*k)
 
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
+a.draw.box(v,  wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 
 
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
 }
 
 ####################
@@ -865,32 +761,29 @@ if(test) rect(a.glc(2,0),a.glc(1,0),a.glc(4,0),a.glc(1, 2.5) ,  col=rgb(0,0,0,0)
 for(k in 1:n.g2){
 xids<-(1+n.g*(k-1)):(n.g*k)
 
-
 v<-NULL
 v<-as.list(v)
+
+wv<-NULL
+wv<-as.list(wv)
+
 if(!is.null(g2)){
 xk<-x[which(g2==levels(g2)[k])]
 gk<-g[which(g2==levels(g2)[k])]
+wk<-w[which(g2==levels(g2)[k])]
 }
 if(is.null(g2)){
 xk<-x
 gk<-g
+wk<-w
 }
 for(i in 1:n.g){
 v[[i]]<-xk[which(gk==levels(gk)[i])]
+wv[[i]]<-wk[which(gk==levels(gk)[i])]
 }
-a.draw.box(v, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
+a.draw.box(v, wv, xrat[xids], xpand[xids], bstats[[k]], means, wall=wall, zylinder=zylinder, col=col, alpha=alpha, type)
 
 
-####################
-# Test
-if(test & !twoside & nlevels(g)>2){
-text(x=mean(xrat[xids]), y=a.glc(1, line=0.833),  labels=paste('JH-Test for',   alt.t[k], 'trend'),  cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-text(x=mean(xrat[xids]), y=a.glc(1, line=1.666),  labels=paste('P for trend: ', p[k]),               cex=(cex-0.2),  col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-}
-if(test & twoside & nlevels(g)>2) text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste('P for trend: ', p[k]), cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-if(test & nlevels(g)==2)          text(x=mean(xrat[xids]), y=a.glc(1, line=1.25),  labels=paste(pstri, p[k]),           cex=(cex-0.2), col=tcol, adj=c(0.5, 0.5), xpd=TRUE)
-#####################
 }
 
 ####################

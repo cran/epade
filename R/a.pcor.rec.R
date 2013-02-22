@@ -19,13 +19,13 @@ function(x,y,z,method="p",na.rm=TRUE){
 	# recursive formula
 	if(dim(z)[2] == 1){
 		tdata <- na.omit(data.frame(data[,1],data[,2]))
-		rxy <- cor(tdata[,1],tdata[,2],m=method)
+		rxy <- cor(tdata[,1],tdata[,2],method=method)
 
 		tdata <- na.omit(data.frame(data[,1],data[,-c(1,2)]))
-		rxz <- cor(tdata[,1],tdata[,2],m=method)
+		rxz <- cor(tdata[,1],tdata[,2],method=method)
 
 		tdata <- na.omit(data.frame(data[,2],data[,-c(1,2)]))
-		ryz <- cor(tdata[,1],tdata[,2],m=method)
+		ryz <- cor(tdata[,1],tdata[,2],method=method)
 
 		rxy.z <- (rxy - rxz*ryz)/( sqrt(1-rxz^2)*sqrt(1-ryz^2) )
 
@@ -44,4 +44,3 @@ function(x,y,z,method="p",na.rm=TRUE){
 		return(rxy.z)
 	}
 }
-

@@ -29,4 +29,3 @@ color<-rgb(rgba[1],rgba[2],rgba[3],names = NULL, alpha*255 , maxColorValue = 255
 return(color)
 }
 }
-

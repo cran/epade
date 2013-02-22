@@ -13,4 +13,3 @@ function (x, na.rm = FALSE)
         sapply(x, kurtosis.ade, na.rm = na.rm)
     else kurtosis.ade(as.vector(x), na.rm = na.rm)
 }
-

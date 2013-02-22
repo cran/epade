@@ -1,6 +1,5 @@
-\name{round.ade}
-\alias{round.ade}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\name{round_n.ade}
+\alias{round_n.ade}
 \title{
 A round function
 }
@@ -8,9 +7,8 @@ A round function
 round a numeric value for pretty printing.
 }
 \usage{
-round.ade(x, digits = 0)
+round_n.ade(x, digits = 0)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 a numeric R object
@@ -30,7 +28,7 @@ elements of x in a rounded format
 \code{\link{format_p.ade}}
 }
 \examples{
-round.ade(13.1415, 2)
-round.ade(3, 3)
+round_n.ade(13.1415, 2)
+round_n.ade(3, 3)
 }
 \keyword{ round }

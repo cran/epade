@@ -474,4 +474,3 @@ sub.ellipse.ade(x = x, y = y, h=h, hx = hx, hy = hy, col=col, nslices=nslices, b
 }
 }
 }
-

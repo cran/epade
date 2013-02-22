@@ -5,8 +5,8 @@ function(x,hmin,hmid, hmax, rangemy=c(0,1), abs=FALSE){
 hexr <- function(x,hmin,hmid, hmax, rangemy=c(0,1)){
 if (!is.na(x)){
 
-if(x> rangemy[2]) return(hmax)
-if(x< rangemy[1]) return(hmin)
+if(x>= rangemy[2]) return(hmax)
+if(x<= rangemy[1]) return(hmin)
 if(x== mean(rangemy, na.rm=TRUE)) return(hmid)
 if(x> rangemy[2]) x<-rangemy[2]
 if(x< rangemy[1]) x<-rangemy[1]
@@ -164,4 +164,3 @@ out<-  sapply(x,hexr, hmin=hmin, hmid=hmid  ,hmax=hmax, rangemy=rangemy, simplif
 
 return(out)
 }
-

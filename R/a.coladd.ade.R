@@ -30,4 +30,3 @@ color<-rgb(rgba[1],rgba[2],rgba[3],names = NULL,rgba[4],maxColorValue = 255)
 return(color)
 }
 }
-

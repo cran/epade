@@ -30,4 +30,3 @@ color<-a.alpha.ade(color, alpha)
 return(color)
 }
 }
-

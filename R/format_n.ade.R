@@ -59,7 +59,7 @@ return(base::format(x, digits=digits, scientific=TRUE))
 #########################################################
 # without scientific representation
 if(!scientific){
-
+x<- as.numeric(x)
 
 
 ###########################
@@ -121,9 +121,11 @@ return(y)
 }   }
 ###########################
 
+
+
+
 }
 #########################################################
 }
 
 }
-

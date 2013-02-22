@@ -14,9 +14,9 @@ bar.plot.wtd(x, y=NULL, z=NULL, w=NULL, data=NULL,
              xlab="", ylab="", main="", ylim=NULL,
              yticks=NULL, col=NULL, tcol=NULL, bgcol=NULL, lcol=NULL,
              alpha=NULL, beside=TRUE, legendon="topright", wall=0,
-             lhoriz=NULL, prozent=FALSE, form="r", border=TRUE, density=NULL,
-             angle=NULL, density2=NULL, angle2=NULL, fill=NULL, lwd=1, lty=1,
-             blwd=1, blty=1)
+             lhoriz=NULL, prozent=FALSE, ploc=0, form="r", border=TRUE,
+             density=NULL, angle=NULL, density2=NULL, angle2=NULL, fill=NULL,
+             lwd=1, lty=1, blwd=1, blty=1)
 }
 \arguments{
   \item{x}{
@@ -149,6 +149,16 @@ logical asking whether to draw legend horizontal
 }
   \item{prozent}{
 logical asking whether to draw percents on bars
+}
+  \item{ploc}{
+Position of percents
+\itemize{
+\item{0: middle   }
+\item{1, bottom     }
+\item{2: over  }
+\item{3: top  }
+\item{4: under  }
+}
 }
   \item{form}{
  a single keyword from:

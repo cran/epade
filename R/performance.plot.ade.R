@@ -101,9 +101,9 @@ return(out)
 ######################################
 # Colors
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(col)){
 if(wall==0) col <-c('palegreen4', 'palegreen2', 'goldenrod1', 'tomato1')
 if(wall!=0) col <-c('green4', 'green', 'orange', 'red')
@@ -573,4 +573,3 @@ box(col=a.coladd.ade(bgcol, -35), lwd=1)
 
 
 }
-

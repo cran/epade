@@ -31,9 +31,9 @@ if(length(legenlab)<N)   legenlab<- c(legenlab, rep('?', N-length(legenlab)))
 # Colors
 if(length(col)<N) col<-NULL
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(lcol) & (wall==0 | wall==2| wall==5))              lcol<-bgcol
 if(is.null(lcol) & (wall==1 | wall==4))   lcol<-rgb(1,1,1)
 if(is.null(lcol) & (wall==3))   lcol<-a.coladd.ade(bgcol, -50)
@@ -132,7 +132,7 @@ onetick<-ticksade[length(ticksade)]-ticksade[length(ticksade)-1]
 lastline<-xmax+(0.15*xrange)
 abline(v=lastline, col=bgcol, lwd=1)
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 if(hlines & N==1)   segments(par('usr')[1], 1:n ,lastline, 1:n, col = bgcol, lty = 1, lwd = 1)
 if(hlines & N>1) abline(h=(0:n)+0.5, col=bgcol, lwd=1)
@@ -186,7 +186,7 @@ if(hlines & N>1)  segments(par('usr')[1], (0:n)+0.5 ,lastline, (0:n)+0.5, col = 
 if(hlines & N>1)  segments(lastline, (0:n)+0.5 ,par('usr')[2], (0:n)+0.5, col = bgcol, lty = 1, lwd = 1)
 
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 segments(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -235,7 +235,7 @@ if(hlines & N>1)  segments(lastline, (0:n)+0.5 ,par('usr')[2], (0:n)+0.5, col = 
 
 abline(v=v, lty=lty, col=lcol)
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 arrows(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], length = 0.0275, angle = 90, code = 3, col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -246,7 +246,7 @@ points(M[[k]][ ,1], ys+yz[k+1], type='p', pch=22, cex=1.1, col=a.coladd.ade(col[
 
 abline(v=lastline, col=a.coladd.ade(bgcol, -75), lwd=1)
 
-if(legends) legend("topleft", legenlab, fill=col, border=a.coladd.ade(col, -75), horiz=TRUE, bg=rgb(1,1,1), box.col=a.coladd.ade(bgcol, -75), box.lwd=1, text.col=tcol)
+if(legends) legend("topleft", legenlab, fill=col, border=a.coladd.ade(col, -75), horiz=TRUE, bg=rgb(1,1,1), box.col=a.coladd.ade(bgcol, -75), box.lwd=1, text.col=tcol, text.width=max(strwidth(legenlab,font = 2)))
 
 if(is.null(sectext))   text( rep(lastline+diff(par('usr')[c(1, 2)])/75 , n)  ,seq(n, 1),     labels =vnames,   pos=4 , col=tcol)
 if(!is.null(sectext))  text( rep(lastline+diff(par('usr')[c(1, 2)])/75 , n)  ,seq(n, 1)+tud, labels =vnames,   pos=4 , col=tcol)
@@ -288,7 +288,7 @@ if(hlines & N>1)    segments(lastline, (0:n)+0.5 ,par('usr')[2], (0:n)+0.5, col 
 
 abline(v=v, lty=lty, col=lcol)
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 arrows(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], length = 0.0275, angle = 90, code = 3, col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -356,7 +356,7 @@ par(xpd=FALSE)
 
 abline(v=v, lty=lty, col=lcol)
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 arrows(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], length = 0.0275, angle = 90, code = 3, col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -433,7 +433,7 @@ if(hlines & N>1)    segments(lastline, (0:n)+0.5 ,par('usr')[2], (0:n)+0.5, col 
 
 abline(v=v, lty=lty, col=lcol)
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 arrows(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], length = 0.0275, angle = 90, code = 3, col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -488,7 +488,7 @@ if(hlines & N>1)  segments(par('usr')[1], (0:n)+0.5 ,par('usr')[2], (0:n)+0.5, c
 
 
 ys<-seq(n,1)
-yz<-seq(-0.5, 0.5, length.out=(N+2))
+yz<-seq(0.5, -0.5, length.out=(N+2))
 if(N==1)   yz<-c(0, 0)
 for(k in 1:N) {
 segments(M[[k]][ ,2], ys+yz[k+1] ,M[[k]][ ,3] , ys+yz[k+1], col = a.coladd.ade(col[k], -75), lty = 1, lwd = 3)
@@ -525,4 +525,3 @@ box(col=a.coladd.ade(bgcol, -35), lwd=1)
 
 
 }
-

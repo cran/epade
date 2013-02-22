@@ -141,9 +141,9 @@ if(!is.null(alpha)) col<- apply(col, 2, a.alpha.ade,  alpha)
 #####################################
 # Colors
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 if(is.null(lcol))  lcol<- tcol
 #####################################
 
@@ -608,4 +608,3 @@ segments(xlim[2], ylim[2], xlim[2]+zx, ylim[2]+zy, col=rgb(1,1,1), lty=3)
 }
 ################################################################################
 }
-

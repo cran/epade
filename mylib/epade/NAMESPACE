@@ -1,1 +1,0 @@
-export( bar.plot.ade , bar.plot.wtd , bar3d.ade , bland.altman.ade , box.plot.ade , correlogram.ade , curves.ade , format_n.ade , format_p.ade , histogram.ade , KM.plot.ade , kurtosis.ade , missiogram.ade , parallel.ade , parallel.set.ade , performance.plot.ade , qq.ade , ratio.plot.ade , roc.plot.ade , round.ade , scatter.ade , skewness.ade , tornado.ade , wall.ade  ) 

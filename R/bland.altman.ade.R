@@ -39,7 +39,7 @@ if(is.null(ylab))  ylab<-paste(x, ' - ' , y,sep='')
 
 if(is.null(eval(parse(text=paste("data$",x)))))  stop('Variable x not found')
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(lcol) & wall!=0)  lcol<- tcol
 if(is.null(lcol) & wall==0)  lcol<- 1
 
@@ -76,4 +76,3 @@ text(par('usr')[c(2,2,2)],  h, labels=ltext, adj=c(1.2,-0.5), col=tcol, font=2)
 
 }
 }
-

@@ -52,9 +52,9 @@ a.N<-1
 if(!is.null(group)) a.N<-nlevels(g)
 
 if(is.null(tcol)  & wall==0)   tcol<-1
-if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.3,0.3,0.45)
+if(is.null(tcol)  & wall!=0)   tcol<-rgb(0.1,0.1,0.25)
 if(is.null(bgcol) & wall==0)   bgcol<-1
-if(is.null(bgcol) & wall!=0)   bgcol<-rgb(0.8, 0.8, 0.9)
+if(is.null(bgcol) & wall!=0)   bgcol<-'#DBE0E8'
 
 if(is.null(col) & a.N==1) col <- tcol
 if(is.null(col) & a.N> 1) col <- a.getcol.ade(a.N)
@@ -524,4 +524,3 @@ zz<-legens.ade(0, ylim[1], vnames, g, p, xlim=xlim, ylim=ylim, lwd, lty=lty, col
 
 
 }
-

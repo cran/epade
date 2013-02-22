@@ -12,7 +12,7 @@ roc.plot.ade(pred, event, group=NULL, data=NULL, vnames=NULL,
              main="", xlab="1-Specificity", ylab="Sensitivity",
              digits=3, pdigs=4, lty=1, lwd=2,
              col=NULL, tcol=NULL, bgcol=NULL,
-             wall=0, test=FALSE, CC=TRUE, auc=TRUE, diag=TRUE)
+             wall=0, test=FALSE, CC=TRUE, auc=TRUE, diag=TRUE, spec=FALSE)
 }
 \arguments{
   \item{pred}{
@@ -83,6 +83,9 @@ logical asking whether to draw AUC in legend
 }
   \item{diag}{
 logical asking whether to plot a diagonal line
+}
+  \item{spec}{
+logical asking whether to draw a axis for Specificity at top.
 }
 }
 \details{

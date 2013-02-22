@@ -1,18 +1,18 @@
-\name{box.plot.ade}
-\alias{box.plot.ade}
+\name{box.plot.wtd}
+\alias{box.plot.wtd}
 \title{
-Boxplot
+weighted Boxplot
 }
 \description{
-Draw a box, a violin, a box-percentile and more plots for subgroups
+Draw a weighted Boxplot. (Beta Version)
 }
 \usage{
-box.plot.ade(x, group=NULL, group2=NULL, data=NULL, vnames=NULL,
+box.plot.wtd(x, group=NULL, group2=NULL, w=NULL, data=NULL, vnames=NULL,
              main=NULL, xlab=NULL, ylab=NULL, ylim=NULL, yticks=NULL,
              col=NULL, tcol=NULL, bgcol=NULL, lcol=NULL, pdigs=4, alpha=NULL,
-             cex=1, cex.axis=1, lwd=2, h=NULL, lty=2, test=FALSE,
+             cex=1, cex.axis=1, lwd=2, h=NULL, lty=2,
              varwidth=TRUE, means=FALSE, count=TRUE, zylinder=FALSE,
-             twoside=TRUE, paired=FALSE, outlier=TRUE, wall=0, type='box')
+             outlier=TRUE, wall=0, type='box')
 }
 \arguments{
   \item{x}{
@@ -33,6 +33,9 @@ box.plot.ade(x, group=NULL, group2=NULL, data=NULL, vnames=NULL,
 \item{ a second factor to group the plots }
 \item{ a character string with the name of the group2 variable in the data.frame }
 }
+}
+\item{w}{
+weights
 }
 \item{data}{
 a data.frame
@@ -88,12 +91,6 @@ the y-value(s) for horizontal line(s).
   \item{lty}{
 the line type
 }
-  \item{test}{
-\itemize{
-\item{ logical asking whether to test for the difference or trend between groups }
-\item{ a string to print before p-value. (leads to test=T) }
-}
-}
   \item{varwidth}{
 logical asking whether the boxwidth indicate the N
 }
@@ -110,12 +107,6 @@ logical asking whether to draw points for the means
   \item{zylinder}{
 logical asking whether to draw boxes in a zylinder style
 }
-  \item{twoside}{
-logical asking whether to perform a wto sided test, or a test with direction
-}
-  \item{paired}{
-logical indicating whether you want a paired test.
-}
   \item{outlier}{
 logical asking whether to draw points for outlier
 }
@@ -126,31 +117,17 @@ a number between 0 and 6 for selection the dekoration style of the plot.
 one of following:
 \itemize{
 \item{"boxplot" for a normal boxplot             }
-\item{"violin"  for a violinplot                 }
 \item{"sd"  for mean and one sd interval         }
 \item{"2sd" for mean and one, two sd intervals   }
-\item{"percentile" for a box-percentile plot     }
 \item{"iqr" for a IQR plot     }
 }
 }
 }
-\details{
-it test for difference with T-test or U-test depends on the skewness <= 1 or >1.
-For a trend it perform a Jonckheere-Terpstra trend test.
-}
 \examples{
 x<-rnorm(1000)
 g<-round(runif(1000))
-g2<-round(runif(1000))
-box.plot.ade(x, g, g2, vnames=list(c("subgroup 1","subgroup 2"),
-c("group 1", "group 2")), wall=0, count='N: ?', means=TRUE)
-box.plot.ade(x, g, g2, vnames=list(c("subgroup 1","subgroup 2"),
-c("group 1", "group 2")), wall=1, type="violin")
-box.plot.ade(x, g, g2, vnames=list(c("subgroup 1","subgroup 2"),
-c("group 1", "group 2")), wall=2, type="percentile")
-box.plot.ade(x, g, g2, vnames=list(c("subgroup 1","subgroup 2"),
-c("group 1", "group 2")), wall=3, type="sd")
+w<-abs(rnorm(1000))
+d<- data.frame(x, g, w)
+box.plot.wtd('x', 'g', w='w', data=d)
 }
 \keyword{ boxplot }
-\keyword{ violinlot }
-\keyword{ box-percentile }
