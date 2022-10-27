@@ -298,7 +298,7 @@ hx<-(b/2)
 ################################################################################
 ##                                                                            ##
 sub.ellipse.ade<-function(x = 0, y = 0, h=0, hx = 1, hy = hx, col='Gray20', nslices=100, border=border, bcol=1, gradient=gradient){
-library(plotrix)
+
 
 if(gradient) col<- a.coladd.ade(col, -50)
 theta <- 0

@@ -1,1 +1,8 @@
 export( bar.plot.ade , bar.plot.wtd , bar3d.ade , bland.altman.ade , box.plot.ade , box.plot.wtd , correlogram.ade , curves.ade , format_n.ade , format_p.ade , histogram.ade , KM.plot.ade , kurtosis.ade , missiogram.ade , parallel.ade , parallel.set.ade , performance.plot.ade , qq.ade , ratio.plot.ade , roc.plot.ade , round_n.ade , scatter.ade , skewness.ade , tornado.ade , wall.ade  ) 
+ import(stats, survival, plotrix) 
+ importFrom("grDevices", "col2rgb", "rainbow", "rgb", "terrain.colors") 
+ importFrom("graphics", "abline", "arrows", "axis", "box", "boxplot",
+           "grid", "hist", "legend", "lines", "mtext", "par", "points",
+           "polygon", "rect", "segments", "strwidth", "symbols",
+           "text", "title", "xinch", "yinch") 
+ importFrom("Hmisc", "wtd.mean", "wtd.quantile", "wtd.var") 

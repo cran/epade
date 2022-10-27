@@ -11,7 +11,7 @@ oldpar<-oldpar[-which(names(oldpar)%in%c('usr',  'plt', 'pin',   'fin', 'fig', '
 on.exit(par(oldpar))
 xlim=NULL
 side<-1
-#library(Hmisc)
+
 
 
 ##############################

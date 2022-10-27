@@ -22,7 +22,6 @@ if(nchar(gsub('[^+]', '', xpart))==1) group<-gsub('^.*[+]', '', xpart)
 ##############################
 
 
-library(plotrix)
 g<-group
 if(is.data.frame(data)  &  is.character(group) &   !is.null(group) )   g<-eval(parse(text=paste("data$",group, sep='')))
 if(!is.data.frame(data) & !is.character(group))    g<-group

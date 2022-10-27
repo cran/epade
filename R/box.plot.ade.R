@@ -31,7 +31,6 @@ if(type== '2sd' | type== '2 sd')  type<-4
 if(type== 'p' | type== 'bp'| type== 'b-p'| type== 'percentile'| type== 'percentiles')  type<-5
 if(type== 'iqr' | type== 'IQR'| type== 'median'| type== 'm')  type<-6
 
-require(plotrix)
 if(is.null(group)){
 test=FALSE
 varwidth=FALSE
@@ -113,29 +112,29 @@ if(is.null(group2))  g.k<- g
 
 
 
-## Trend Test Mit Richtung
-if(test & !twoside & nlevels(g)>2){
-down<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "decreasing")
-updt<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "increasing")
-if(down[[3]] < updt[[3]]) {
-p.k<- format_p.ade(down[[3]], pdigs)
-alt<- down[[2]]
-}
-if(down[[3]] > updt[[3]]) {
-p.k<- format_p.ade( updt[[3]] , pdigs)
-alt<- updt[[2]]
-}
+# ## Trend Test Mit Richtung
+# if(test & !twoside & nlevels(g)>2){
+# down<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "decreasing")
+# updt<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "increasing")
+# if(down[[3]] < updt[[3]]) {
+# p.k<- format_p.ade(down[[3]], pdigs)
+# alt<- down[[2]]
+# }
+# if(down[[3]] > updt[[3]]) {
+# p.k<- format_p.ade( updt[[3]] , pdigs)
+# alt<- updt[[2]]
+# }
+# 
+# p<-c(p, p.k)
+# alt.t<-c(alt.t, alt)
+# 
+# }
 
-p<-c(p, p.k)
-alt.t<-c(alt.t, alt)
-
-}
-
-if(test & twoside  & nlevels(g)>2){
-trtest<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "two.sided")
-p.k<- format_p.ade(trtest[3], pdigs)
-p<-c(p, p.k)
-}
+# if(test & twoside  & nlevels(g)>2){
+# trtest<-a.jt.trend.ade(x.k, as.numeric(g.k), alternative = "two.sided")
+# p.k<- format_p.ade(trtest[3], pdigs)
+# p<-c(p, p.k)
+# }
 
 if(nlevels(g)==2 & test){
 if(!is.null(group2)) skewness.k<-abs(as.vector(unlist(by(x, list(g, g2), skewness.ade, na.rm=TRUE , simplify =FALSE))))
@@ -278,7 +277,6 @@ a.draw.box<-function(v, at, expand, bstats, means, wall, zylinder=FALSE, col=1, 
 ################
 if(type==1){
 if(zylinder){
-library(plotrix)
 cylindrect(at-expand, bstats$stats[4, ], at+expand, bstats$stats[2, ],  col=col, border=col)
 }
 

@@ -223,7 +223,7 @@ segments(zss, (tieff+0.5)*((zy/zn)),  zss+(diff(range(xlim))/40),  (tieff+0.5)*(
 text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, xpd=TRUE, col=tcol, cex=0.9)
 }
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -235,7 +235,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(xlim)+zx, y= par('usr')[4]+yr/1.85 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=bgcol, lty=3)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=bgcol, lty=3)
@@ -279,7 +279,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -291,7 +291,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(xlim)+zx, y= par('usr')[4]+yr/1.85 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3)
@@ -336,7 +336,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -348,7 +348,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(xlim)+zx, y= par('usr')[4]+yr/1.85 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=a.coladd.ade(bgcol, -75), lty=3)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=a.coladd.ade(bgcol, -75), lty=3)
@@ -394,7 +394,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -406,7 +406,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(xlim)+zx, y= par('usr')[4]+yr/1.85 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWnde
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=a.coladd.ade(bgcol, -50), lty=3)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=a.coladd.ade(bgcol, -50), lty=3)
@@ -453,7 +453,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -468,7 +468,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(c(xlim[c(1,1,2,2)])+zx), y= par('usr')[4]+yr/4.25 ,  labels=main, cex = 1.25, font=2, col=rgb(1,1,1), xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3, lwd=1)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3, lwd=1)
@@ -510,7 +510,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -532,7 +532,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(c(xlim[c(1,1,2,2)])+zx), y= par('usr')[4]+yr/4 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=tcol, lty=3, lwd=1)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=tcol, lty=3, lwd=1)
@@ -587,7 +587,7 @@ text(zss+(diff(range(xlim))/20), (tieff+0.5)*((zy/zn)), labels=zlabels, adj=0, x
 
 
 
-# Überschriften
+# Ueberschriften
 par(xpd=TRUE)
 dx<-8/par('din')[1]
 dy<-8/par('din')[2]
@@ -599,7 +599,7 @@ text(mean(zss+(diff(range(xlim))/4.5)), ylim[1]+(zy/2), labels=zlab, cex = 1, fo
 text(mean(xlim)+zx, y= par('usr')[4]+yr/1.85 ,  labels=main, cex = 1.25, font=2, col=tcol, xpd=TRUE)
 par(xpd=FALSE)
 
-# PseudoWände, Drüber
+# PseudoWende, Drber
 if(fgbox & bgbox){
 segments(xlim[2], ylim[1], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3)
 segments(xlim[1], ylim[2], xlim[2],    ylim[2],    col=rgb(1,1,1), lty=3)

@@ -164,7 +164,7 @@ scatter.ade(x, vnames=c("blue","red"), alpha=0.25, fitline=2, wall=0, lwd=2, col
 # Scatter plot
 scatter.ade(x, y*x, g, vnames=c("blue","red"), alpha=0.25, wall=2)
 # bubble plot
-scatter.ade(x, y, g, z, vnames=c("blue","red"), alpha=0.25, xlim=c(-5, 5), zticks=c(1, 2, 3, 4, 5), wall=3)
+scatter.ade(x, y, g, z, vnames=c("blue","red"), alpha=0.25, zticks=c(1,2,3,4,5), wall=3)
 }
 \keyword{ scatterplot }
 \keyword{ bubble }

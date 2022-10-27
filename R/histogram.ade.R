@@ -108,7 +108,7 @@ if(is.null(col) & wall!=0 & is.null(group))   col<-rgb(0.6,0.6,0.75)
 
 
 if(!is.null(group) & is.null(col)) {
-if(nlevels(group)>1)  col <- epade:::a.getcol.ade(nlevels(group))
+if(nlevels(group)>1)  col <- a.getcol.ade(nlevels(group))
 }
 
 
@@ -119,12 +119,12 @@ if(is.null(alpha) & wall!=0 & nlevels(group)>2 & nlevels(group)<=4 ) alpha<-0.33
 if(is.null(alpha) & wall!=0 & nlevels(group)>4 ) alpha<-0.25
 
 
-col<- epade:::a.alpha.ade(col, alpha)
+col<- a.alpha.ade(col, alpha)
 
 
 if(is.null(lcol))  lcol<- tcol
 
-col2<-epade:::a.alpha.ade(col, 1)
+col2<-a.alpha.ade(col, 1)
 if(wall==0 & is.null(density)) density<-16
 if(wall!=0 & is.null(density)) density<-NA
 if(is.null(angle)){
@@ -182,8 +182,8 @@ if(is.null(ylim) &  freq) ylim<-c(0, max(HH$counts, na.rm=TRUE) +(max(HH$counts,
 
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 
 # Ticks
@@ -198,7 +198,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -206,8 +206,8 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
 box(col=bgcol)
@@ -247,7 +247,7 @@ axis(2, labels =TRUE, tick=TRUE, col=bgcol, lwd.ticks=1, col.ticks=bgcol)
 
 #Legend
 legend(legendon, legend=vnames, pt.cex=1.3 ,col = col2,  pch=15, box.col=bgcol,  border=bgcol, text.col=tcol, pt.bg=col2, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.3 ,col = bgcol, pch=0,  box.col=bgcol,  bg=epade:::a.alpha.ade(1,0), border=bgcol, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.3 ,col = bgcol, pch=0,  box.col=bgcol,  bg=a.alpha.ade(1,0), border=bgcol, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
 
 
 
@@ -262,8 +262,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -272,7 +272,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -280,8 +280,8 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
@@ -328,8 +328,8 @@ a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 abline(v=v, h=h, col=tcol, lty=lty, lwd=lwd)
 
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 
 
 
@@ -339,7 +339,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -347,8 +347,8 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
 box(lwd=2, col=rgb(1,1,1))
@@ -385,7 +385,7 @@ a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 abline(v=v, h=h, col=tcol, lty=lty, lwd=lwd)
 legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=bgcol, border=rgb(1,1,1), box.col=rgb(1,1,1), box.lwd=2, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=epade:::a.alpha.ade(1, 0), border=rgb(1,1,1), box.col=epade:::a.alpha.ade(1, 0), box.lwd=2, text.col=epade:::a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=a.alpha.ade(1, 0), border=rgb(1,1,1), box.col=a.alpha.ade(1, 0), box.lwd=2, text.col=a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
 
 
 
@@ -402,8 +402,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -412,7 +412,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -420,8 +420,8 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
@@ -460,22 +460,22 @@ if(is.null(ylim) &  freq) ylim<-c(0, max(HH$counts, na.rm=TRUE) +(max(HH$counts,
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
 
 # Ticks
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -75), lwd.ticks=1)
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -75), lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=bgcol, lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 
 # norm Lines
 xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -483,11 +483,11 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
-box(col=epade:::a.coladd.ade(bgcol, -75))
+box(col=a.coladd.ade(bgcol, -75))
 }
 ################################################################################
 ################################################################################
@@ -512,17 +512,17 @@ if(freq)  ylim<-c(0, max(ylim, max(HH2$counts,  na.rm=T)+max(HH2$counts,  na.rm=
 
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -75))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -75), lwd.ticks=1)
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -75))
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -75), lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=bgcol, lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 
 
 #Legend
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=rgb(1,1,1), box.col=epade:::a.coladd.ade(bgcol, -75), box.lwd=1, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = epade:::a.coladd.ade(bgcol, -75), pch=0,  bg=epade:::a.alpha.ade(1,0), box.col=epade:::a.alpha.ade(1,0), box.lwd=1, text.col=epade:::a.alpha.ade(1,0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=rgb(1,1,1), box.col=a.coladd.ade(bgcol, -75), box.lwd=1, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = a.coladd.ade(bgcol, -75), pch=0,  bg=a.alpha.ade(1,0), box.col=a.alpha.ade(1,0), box.lwd=1, text.col=a.alpha.ade(1,0), text.width=max(strwidth(vnames,font = 2)))
 
 
 
@@ -537,8 +537,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -547,7 +547,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -555,14 +555,14 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
 
 
-box(col=epade:::a.coladd.ade(bgcol, -75))
+box(col=a.coladd.ade(bgcol, -75))
 }
 }
 ################################################################################
@@ -596,16 +596,16 @@ if(is.null(ylim) &  freq) ylim<-c(0, max(HH$counts, na.rm=TRUE) +(max(HH$counts,
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -50), lwd.ticks=1)
-abline(v=a1, h=a2, lty=1, col=epade:::a.coladd.ade(bgcol, -50), lwd=1)
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -50), lwd.ticks=1)
+abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -50), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 
 
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 
 # norm Lines
 b<-  max(diff(HH$breaks))
@@ -613,7 +613,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -621,11 +621,11 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
-box(col=epade:::a.coladd.ade(bgcol, -50))
+box(col=a.coladd.ade(bgcol, -50))
 }
 ################################################################################
 ################################################################################
@@ -654,14 +654,14 @@ if(freq)  ylim<-c(0, max(ylim, max(HH2$counts,  na.rm=T)+max(HH2$counts,  na.rm=
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=epade:::a.coladd.ade(bgcol, -50))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -50), lwd.ticks=1)
-abline(v=a1, h=a2, lty=1, col=epade:::a.coladd.ade(bgcol, -50), lwd=1)
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=a.coladd.ade(bgcol, -50))
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -50), lwd.ticks=1)
+abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -50), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=rgb(1,1,1), box.col=epade:::a.coladd.ade(bgcol, -50), box.lwd=1, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = epade:::a.coladd.ade(bgcol, -50), pch=0 , bg=epade:::a.alpha.ade(1,0), box.col=epade:::a.alpha.ade(1,0), box.lwd=1, text.col=epade:::a.alpha.ade(1,0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=rgb(1,1,1), box.col=a.coladd.ade(bgcol, -50), box.lwd=1, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = a.coladd.ade(bgcol, -50), pch=0 , bg=a.alpha.ade(1,0), box.col=a.alpha.ade(1,0), box.lwd=1, text.col=a.alpha.ade(1,0), text.width=max(strwidth(vnames,font = 2)))
 
 
 # Gruppen inrun
@@ -675,8 +675,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -685,7 +685,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -693,14 +693,14 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
 
 
-box(col=epade:::a.coladd.ade(bgcol, -50))
+box(col=a.coladd.ade(bgcol, -50))
 }
 }
 ################################################################################
@@ -737,24 +737,24 @@ if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tic
 if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=tcol)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 # Outer
 par(xpd=TRUE)
-polygon(epade:::a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), epade:::a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
+polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
 
-if(is.expression(ylab))                           polygon( epade:::a.glc(side=2, line=c(3.5, 3.5, 2, 2)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
-if(is.character(ylab))  if(ylab!='' & ylab!=' ')  polygon( epade:::a.glc(side=2, line=c(3.5, 3.5, 2, 2)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
+if(is.expression(ylab))                           polygon( a.glc(side=2, line=c(3.5, 3.5, 2, 2)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
+if(is.character(ylab))  if(ylab!='' & ylab!=' ')  polygon( a.glc(side=2, line=c(3.5, 3.5, 2, 2)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
 
-if(is.expression(xlab))                           polygon( epade:::a.glc(side=c(2, 2, 4, 4), line=0),     epade:::a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
-if(is.character(xlab))  if(xlab!='' & xlab!=' ')  polygon( epade:::a.glc(side=c(2, 2, 4, 4), line=0),     epade:::a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
+if(is.expression(xlab))                           polygon( a.glc(side=c(2, 2, 4, 4), line=0),     a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
+if(is.character(xlab))  if(xlab!='' & xlab!=' ')  polygon( a.glc(side=c(2, 2, 4, 4), line=0),     a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
 
 
 
-text(epade:::a.glc(side=0), epade:::a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
-text(epade:::a.glc(side=0), epade:::a.glc(side=1, line=3.5), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=2, line=2.5), epade:::a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
+text(a.glc(side=0), a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
+text(a.glc(side=0), a.glc(side=1, line=3.5), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=2, line=2.5), a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
 par(xpd=FALSE)
 
 # norm Lines
@@ -762,7 +762,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -770,8 +770,8 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
 box(col=rgb(1,1,1))
@@ -808,23 +808,23 @@ if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=r
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=tcol, border=rgb(1,1,1), box.col=rgb(1,1,1), box.lwd=1, text.col=rgb(1,1,1), text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=epade:::a.alpha.ade(1, 0), border=rgb(1,1,1), box.col=epade:::a.alpha.ade(1, 0), box.lwd=2, text.col=epade:::a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=a.alpha.ade(1, 0), border=rgb(1,1,1), box.col=a.alpha.ade(1, 0), box.lwd=2, text.col=a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
 # Outer
 par(xpd=TRUE)
-polygon(epade:::a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), epade:::a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
+polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0, 2.75,  2.75, 0)), col=tcol, border=rgb(1,1,1))
 
 
-if(is.expression(ylab))                          polygon( epade:::a.glc(side=2, line=c(3.5, 3.5, 2, 2)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
-if(is.character(ylab))  if(ylab!='' & ylab!=' ') polygon( epade:::a.glc(side=2, line=c(3.5, 3.5, 2, 2)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
+if(is.expression(ylab))                          polygon( a.glc(side=2, line=c(3.5, 3.5, 2, 2)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
+if(is.character(ylab))  if(ylab!='' & ylab!=' ') polygon( a.glc(side=2, line=c(3.5, 3.5, 2, 2)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=rgb(1,1,1))
 
-if(is.expression(xlab))                          polygon( epade:::a.glc(side=c(2, 2, 4, 4), line=0),     epade:::a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
-if(is.character(xlab))  if(xlab!='' & xlab!=' ') polygon( epade:::a.glc(side=c(2, 2, 4, 4), line=0),     epade:::a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
+if(is.expression(xlab))                          polygon( a.glc(side=c(2, 2, 4, 4), line=0),     a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
+if(is.character(xlab))  if(xlab!='' & xlab!=' ') polygon( a.glc(side=c(2, 2, 4, 4), line=0),     a.glc(side=1, line=c(4, 2.5, 2.5, 4)), col=bgcol, border=rgb(1,1,1))
 
 
 
-text(epade:::a.glc(side=0), epade:::a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
-text(epade:::a.glc(side=0), epade:::a.glc(side=1, line=3.5), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=2, line=2.5), epade:::a.glc(side=5),  labels=ylab, cex = 1.1,  font=2,  col=tcol, adj=c(0.5,0), srt=90)
+text(a.glc(side=0), a.glc(side=3, line=1),    labels=main, cex = 1.25, font=2, col=rgb(1,1,1), adj=c(0.5,0))
+text(a.glc(side=0), a.glc(side=1, line=3.5), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=2, line=2.5), a.glc(side=5),  labels=ylab, cex = 1.1,  font=2,  col=tcol, adj=c(0.5,0), srt=90)
 par(xpd=FALSE)
 
 
@@ -839,8 +839,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -849,7 +849,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -857,8 +857,8 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
@@ -910,22 +910,22 @@ if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=r
 
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 # Outer
 par(xpd=TRUE)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25, 0, 0)), epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(epade:::a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  epade:::a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0 ,0.6, 0.6)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=tcol)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25, 0, 0)), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
-polygon(epade:::a.glc(side=c(2, 2, 4, 4), line=0), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=rgb(1,1,1,0), border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0, 0.6, 0.6)), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
-text(epade:::a.glc(side=0), epade:::a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=0), epade:::a.glc(side=1, line=3.75), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=2, line=2.5), epade:::a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
+polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
+polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+polygon(a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
+polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=tcol)
+polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
+polygon(a.glc(side=c(2, 2, 4, 4), line=0), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=rgb(1,1,1,0), border=tcol)
+polygon(a.glc(side=4, line=c(0, 0, 0.6, 0.6)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
+text(a.glc(side=0), a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=0), a.glc(side=1, line=3.75), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=2, line=2.5), a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
 
 par(xpd=FALSE)
 box(col=tcol)
@@ -936,7 +936,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -944,8 +944,8 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
 }
@@ -979,21 +979,21 @@ if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=r
 a2<-axis(2, col=rgb(1,1,1), col.ticks=tcol, lwd.ticks=1)
 abline(v=v, h=h, col=lcol, lty=lty, lwd=lwd)
 legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=rgb(1,1,1), border=TRUE,     box.col=tcol, box.lwd=1, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = tcol, pch=0, bg=epade:::a.alpha.ade(1, 0), border=TRUE, box.col=tcol, box.lwd=1, text.col=epade:::a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = tcol, pch=0, bg=a.alpha.ade(1, 0), border=TRUE, box.col=tcol, box.lwd=1, text.col=a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
 
 # Outer
 par(xpd=TRUE)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25, 0, 0)), epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(epade:::a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   epade:::a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  epade:::a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0 ,0.6, 0.6)), epade:::a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=tcol)
-polygon(epade:::a.glc(side=2, line=c(4.25, 4.25, 0, 0)), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
-polygon(epade:::a.glc(side=c(2, 2, 4, 4), line=0), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=rgb(1,1,1,0), border=tcol)
-polygon(epade:::a.glc(side=4, line=c(0, 0, 0.6, 0.6)), epade:::a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
-text(epade:::a.glc(side=0), epade:::a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=0), epade:::a.glc(side=1, line=3.75), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
-text(epade:::a.glc(side=2, line=2.5), epade:::a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
+polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+polygon(a.glc(side=c(2,2,4,4), line=c(0,0,0,0)), a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=rgb(1,1,1,0), border=tcol)
+polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)),   a.glc(side=3, line=c(0.6, 3, 3, 0.6)), col=bgcol,        border=tcol)
+polygon(a.glc(side=2, line=c(4.25, 4.25 ,3.65, 3.65)),  a.glc(side=c(1,3,3,1), line=c(2.6, 0.6, 0.6, 2.6)), col=bgcol,  border=tcol)
+polygon(a.glc(side=4, line=c(0, 0 ,0.6, 0.6)), a.glc(side=c(1, 3, 3, 1), line=0), col=bgcol, border=tcol)
+polygon(a.glc(side=2, line=c(4.25, 4.25, 0, 0)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
+polygon(a.glc(side=c(2, 2, 4, 4), line=0), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=rgb(1,1,1,0), border=tcol)
+polygon(a.glc(side=4, line=c(0, 0, 0.6, 0.6)), a.glc(side=1, line=c(2.6, 4.5, 4.5, 2.6)), col=bgcol, border=tcol)
+text(a.glc(side=0), a.glc(side=3, line=1.5),  labels=main, cex = 1.25, font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=0), a.glc(side=1, line=3.75), labels=xlab, cex = 1.1,  font=2, col=tcol, adj=c(0.5,0))
+text(a.glc(side=2, line=2.5), a.glc(side=5), labels=ylab, cex = 1.1,   font=2,  col=tcol, adj=c(0.5,0), srt=90)
 
 par(xpd=FALSE)
 box(lwd=1, col=tcol)
@@ -1010,8 +1010,8 @@ b<-  max(diff(HH$breaks))
 # Bars
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -1020,7 +1020,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -1028,8 +1028,8 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
@@ -1068,19 +1068,19 @@ if(is.null(ylim) &  freq) ylim<-c(0, max(HH$counts, na.rm=TRUE) +(max(HH$counts,
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -35), lwd.ticks=3)
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -35), lwd.ticks=3)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=rgb(1,1,1), lwd.ticks=1)
 
-abline(v=a1, h=a2, lty=1, col=epade:::a.coladd.ade(bgcol, -35), lwd=3)
+abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -35), lwd=3)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
-if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
-if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=epade:::a.coladd.ade(col, -75), lwd=1)
+if(bars & !freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$density,  angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
+if(bars &  freq)  rect(HH$breaks[-length(HH$breaks)] , 0, HH$breaks[-1], HH$counts,   angle=angle, density=density, col=col, border=a.coladd.ade(col, -75), lwd=1)
 abline(v=v, h=h, col=tcol, lty=lty, lwd=lwd)
 
 
@@ -1090,7 +1090,7 @@ xfit<-seq(min(x, na.rm=TRUE),max(x, na.rm=TRUE),length=length(HH$mids)*25)
 yfit<-dnorm(xfit, mean=a.wtd.mean(x[which(!is.na(x))],w[which(!is.na(x))], na.rm=TRUE),sd=sqrt(a.wtd.var(x[which(!is.na(x))], w[which(!is.na(x))], na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(tcol, 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -1098,12 +1098,12 @@ w2<- w[which(!is.na(x))]/(sum(w[which(!is.na(x))]))
 dd<-density(x[which(!is.na(x))], bw='nrd',na.rm =TRUE, weights =w2 )
 dd$y<- (dd$y)
 if(freq) dd$y <-(dd$y*sum(HH$counts))
-if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=epade:::a.coladd.ade(col, -75), angle=angle, density=density)
-if(kern & bars ) lines(dd,   col=epade:::a.alpha.ade(tcol, 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col, lwd=lwd, border=a.coladd.ade(col, -75), angle=angle, density=density)
+if(kern & bars ) lines(dd,   col=a.alpha.ade(tcol, 1), lwd=lwd)
 
 
 box(lwd=3, col=rgb(1,1,1))
-box(lwd=1, col=epade:::a.coladd.ade(bgcol, -35))
+box(lwd=1, col=a.coladd.ade(bgcol, -35))
 }
 ################################################################################
 ################################################################################
@@ -1129,21 +1129,21 @@ if(freq)  ylim<-c(0, max(ylim, max(HH2$counts,  na.rm=T)+max(HH2$counts,  na.rm=
 # Plot
 plot(0,0, col=rgb(0,0,0,0), main=main, xlab=xlab, ylab=ylab, ylim=ylim, xlim=xlim, axes=F)
 polygon( c(par('usr')[c(1,1,2,2)]), par('usr')[c(3,4,4,3)], col=bgcol, border=FALSE)
-if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(is.null(xticks))                      a1<-axis(1, labels=TRUE, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(!is.null(xticks) & length(xticks)==1) a1<-axis(1, at=pretty(x, n=xticks), tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=epade:::a.coladd.ade(bgcol, -35))
+if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=3, col.ticks=a.coladd.ade(bgcol, -35))
 if(!is.null(xticks) & length(xticks)>1 ) a1<-axis(1, at=xticks, tick=TRUE, col=rgb(1,1,1), lwd.ticks=1, col.ticks=rgb(1,1,1))
-a2<-axis(2, col=rgb(1,1,1), col.ticks=epade:::a.coladd.ade(bgcol, -35), lwd.ticks=3)
+a2<-axis(2, col=rgb(1,1,1), col.ticks=a.coladd.ade(bgcol, -35), lwd.ticks=3)
 a2<-axis(2, col=rgb(1,1,1), col.ticks=rgb(1,1,1), lwd.ticks=1)
 
-abline(v=a1, h=a2, lty=1, col=epade:::a.coladd.ade(bgcol, -35), lwd=3)
+abline(v=a1, h=a2, lty=1, col=a.coladd.ade(bgcol, -35), lwd=3)
 abline(v=a1, h=a2, lty=1, col=rgb(1,1,1), lwd=1)
 
 abline(v=v, h=h, col=tcol, lty=lty, lwd=lwd)
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=bgcol, border=epade:::a.coladd.ade(bgcol, -35), box.col=rgb(1,1,1), box.lwd=3, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
-legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=epade:::a.alpha.ade(1, 0), border=epade:::a.coladd.ade(bgcol, -35), box.col=epade:::a.coladd.ade(bgcol, -35), box.lwd=1, text.col=epade:::a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = col2, pch=15, bg=bgcol, border=a.coladd.ade(bgcol, -35), box.col=rgb(1,1,1), box.lwd=3, text.col=tcol, text.width=max(strwidth(vnames,font = 2)))
+legend(legendon, legend=vnames, pt.cex=1.5 ,col = rgb(1,1,1), pch=0, bg=a.alpha.ade(1, 0), border=a.coladd.ade(bgcol, -35), box.col=a.coladd.ade(bgcol, -35), box.lwd=1, text.col=a.alpha.ade(1, 0), text.width=max(strwidth(vnames,font = 2)))
 
 
 # Gruppen inrun
@@ -1158,8 +1158,8 @@ b<-  max(diff(HH$breaks))
 HH2<-weighted.hist(xsub, wsub, breaks=HH$breaks, plot=FALSE, freq=F)
 HH2$density <- HH2$density/diff(HH2$breaks)
 
-if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
-if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=epade:::a.alpha.ade(epade:::a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & !freq) rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$density,  angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
+if(bars & freq)  rect(HH2$breaks[-length(HH2$breaks)] , 0, HH2$breaks[-1], HH2$counts,   angle=angle[i], density=density, col=col[i], border=a.alpha.ade(a.coladd.ade(col[i], -100),1), lwd=1)
 
 
 
@@ -1168,7 +1168,7 @@ xfit<-seq(min(xsub, na.rm=TRUE),max(xsub, na.rm=TRUE),length=100)
 yfit<-dnorm(xfit, mean=a.wtd.mean(xsub,wsub, na.rm=TRUE),sd=sqrt(a.wtd.var(xsub,wsub, na.rm=TRUE)))
 yfit<- yfit
 if(freq) yfit <-(yfit*sum(HH2$counts))
-if(norm) lines(xfit, yfit, col=epade:::a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
+if(norm) lines(xfit, yfit, col=a.alpha.ade(col[i], 1), lwd=lwd, lty=2)
 
 
 # Density
@@ -1176,15 +1176,15 @@ w2<- wsub/sum(wsub)
 dd<-density(xsub, bw='nrd',na.rm =TRUE, weights =w2)
 dd$y<- dd$y
 if(freq) dd$y <-(dd$y*sum(HH2$counts))
-if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=epade:::a.coladd.ade(col[i], -75), angle=angle[i], density=density)
-if(kern & bars ) lines(dd,  col=epade:::a.alpha.ade(col[i], 1), lwd=lwd)
+if(kern & !bars) polygon(dd, col=col[i], lwd=lwd, border=a.coladd.ade(col[i], -75), angle=angle[i], density=density)
+if(kern & bars ) lines(dd,  col=a.alpha.ade(col[i], 1), lwd=lwd)
 
 }
 #######################
 
 
 box(lwd=3, col=rgb(1,1,1))
-box(lwd=1, col=epade:::a.coladd.ade(bgcol, -35))
+box(lwd=1, col=a.coladd.ade(bgcol, -35))
 }
 }
 ################################################################################

@@ -1,6 +1,6 @@
 box.plot.wtd <-
 function(x, group=NULL, group2=NULL, w=NULL, data=NULL, vnames=NULL, main=NULL, xlab=NULL, ylab=NULL, ylim=NULL, yticks=NULL, col=NULL, tcol=NULL, bgcol=NULL, lcol=NULL, pdigs=4, alpha=NULL, cex=1, cex.axis=1, lwd=2, h=NULL, lty=2, varwidth=TRUE, means=FALSE, count=TRUE, zylinder=FALSE, outlier=TRUE, wall=0, type='box'){
-library(Hmisc)
+#requireNamespace(Hmisc) 
 if(any(par('mfg')!=c(1,1,1,1)) & any(par('mai') < c(1.02, 0.82, 0.82, 0.42))){
 maidiff<-rep(0, 4)
 norm<-c(1.02, 0.82, 0.82, 0.42)
@@ -35,7 +35,7 @@ if(type== 'sd')  type<-2
 if(type== '2sd' | type== '2 sd')  type<-3
 if(type== 'iqr' | type== 'IQR'| type== 'median'| type== 'm')  type<-4
 
-require(plotrix)
+
 if(is.null(group)){
 test=FALSE
 varwidth=FALSE
@@ -233,7 +233,6 @@ lowW<- c(lowW, lowWk)
 }
 
 if(zylinder){
-library(plotrix)
 cylindrect(at-expand, v75, at+expand, v25,  col=col, border=col)
 }
 

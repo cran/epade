@@ -11,8 +11,7 @@ oldpar<-oldpar[-which(names(oldpar)%in%c('usr',  'plt',  'pin',  'fin', 'fig', '
 on.exit(par(oldpar))
 
 
-library(survival)
-library(plotrix)
+#requireNamespace(survival)
 
 
 ################################################################################
@@ -131,8 +130,8 @@ if(ylim[1]>0.05) axis.break(axis=2,breakpos=ylim[1],bgcol=rgb(1,1,1),breakcol=bg
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1,  col, plot=TRUE, test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<-legend(legendon, inset = 0.0375,  legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), bg=rgb(1,1,1,0), col = c(col, rgb(1,1,1,0)), box.lwd=1, text.col=tcol, lty = c(lty, 0),  merge = TRUE, yjust=0, box.col=bgcol, text.width=max(strwidth(letext,font = 2)))
 return(lrect)
 }
@@ -176,8 +175,8 @@ polygon( c(par('usr')[1]+ktx, par('usr')[1], par('usr')[1], par('usr')[1]+ktx), 
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1, col, plot=TRUE, test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<-legend(legendon, inset = 0.0375,  legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), col = c(col, rgb(1,1,1,0)), bg=bgcol, box.lwd=2, text.col=tcol, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=rgb(1,1,1), text.width=max(strwidth(letext,font = 2)))
 return(lrect)
 }
@@ -222,8 +221,8 @@ par(xpd=FALSE)
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1, col, plot=TRUE, test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<-legend(legendon, inset = 0.0375,  legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), col = c(col, rgb(1,1,1,0)), bg=rgb(1,1,1), box.lwd=1, text.col=tcol, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=a.coladd.ade(bgcol, -75), text.width=max(strwidth(letext,font = 2)))
 return(lrect)
 }
@@ -269,8 +268,8 @@ par(xpd=FALSE)
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1, col, plot=TRUE, test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<-legend(legendon, inset = 0.0375,  legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), col = c(col, rgb(1,1,1,0)), bg=rgb(1,1,1), box.lwd=1, text.col=tcol, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=a.coladd.ade(bgcol, -75), text.width=max(strwidth(letext,font = 2)))
 return(lrect)
 }
@@ -321,8 +320,8 @@ polygon( c(par('usr')[1]+ktx, par('usr')[1], par('usr')[1], par('usr')[1]+ktx), 
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1, col, plot=TRUE,test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 rrect<- legend(legendon, inset = 0.0375,  legend=letext, lwd=c(rep(lwd+4, n),0)  ,col = c( rgb(1,1,1)) , bg=tcol, box.lwd=1,   lty = c(rep(1, n) ,0),  merge = TRUE, yjust=0, box.col=rgb(1,1,1), text.col=rgb(1,1,1), text.width=max(strwidth(letext,font = 2)))
 lrect<- legend(legendon, inset = 0.0375,  legend=letext, lwd=c(rep(lwd+2, n),0)  ,col = c(col, rgb(1,1,1,0))         , bg=a.alpha.ade(tcol, 0), box.lwd=1, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=rgb(1,1,1), text.col=rgb(1,1,1), text.width=max(strwidth(letext,font = 2)))
 return(lrect)
@@ -383,8 +382,8 @@ if(ylim[1]>0.05 & ycut) axis.break(axis=2,breakpos=ylim[1],bgcol="white",breakco
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd,  lty=1, col, plot=TRUE, test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<- legend(legendon, inset = 0.0375,  legend=letext, lwd=c(rep(lwd+1, n),0)  ,col = c(col, rgb(1,1,1,0)), bg=rgb(1,1,1),  box.lwd=1, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=tcol, text.col=tcol, text.width=max(strwidth(letext,font = 2)))
 return(lrect)
 }
@@ -442,8 +441,8 @@ polygon( c(par('usr')[1]+ktx, par('usr')[1], par('usr')[1], par('usr')[1]+ktx), 
 legens.ade<-function(x, y, vnames, g, p, xlim, ylim, lwd, lty=1, col, plot=TRUE,test){
 n<- nlevels(g)
 if(is.null(lty)) lty <- c(rep(1,n) ,0)
-if(test)  letext<-c(paste(vnames,': ', levels(g)), paste('p Value: ', p))
-if(!test) letext<-c(paste(vnames,': ', levels(g)))
+if(test)  letext<-c(paste(vnames,': ', levels(g), sep=''), paste('p-value: ', p))
+if(!test) letext<-c(paste(vnames,': ', levels(g), sep=''))
 lrect<-legend(legendon, inset = 0.0375, legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), col = c(col, rgb(1,1,1,0)), bg=bgcol, text.col=tcol,        lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=rgb(1,1,1), box.lwd=3, text.width=max(strwidth(letext,font = 2)))
 lrect<-legend(legendon, inset = 0.0375, legend=letext, plot=plot, lwd=c(rep(lwd+1, n),0), col = c(col, rgb(1,1,1,0)), bg=rgb(0,0,0,0), text.col=tcol, lty = c(lty ,0),  merge = TRUE, yjust=0, box.col=a.coladd.ade(bgcol, -35) , box.lwd=1, text.width=max(strwidth(letext,font = 2)))
 return(lrect)
@@ -502,7 +501,7 @@ move=T
 plot.box.ade( xlab, ylab, main, xlim=xlim, ylim=ylim, lwd=lwd)
 
 #################
-#   p Value
+#   p-value
 testwerte<-survdiff(Surv(eval(parse(text=paste("data$",time, sep=''))) , eval(parse(text=paste("data$",event, sep='')))) ~ eval(parse(text=paste("data$",group, sep=''))), rho=0)
 p<- (1 - pchisq(testwerte$chisq, (nlevels(g)-1)))
 p <- format_p.ade(p, pdigs)

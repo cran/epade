@@ -17,8 +17,8 @@ Be careful if you use any of the statistical tests in the plots, since they do n
 Package: \tab epade\cr
 Title: \tab Easy Plots\cr
 Type: \tab Package\cr
-Version: \tab 0.3.8\cr
-Date: \tab 2013-02-22\cr
+Version: \tab 0.5.1\cr
+Date: \tab 2022-10-25\cr
 Depends: \tab plotrix, R (>= 2.12)\cr
 Suggests: \tab survival\cr
 License: \tab GPL (>= 2) \cr
